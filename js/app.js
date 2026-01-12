@@ -327,13 +327,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnDicas.addEventListener('click', () => {
             AudioManager.play('click');
             showScreen('dicas');
-            // Aplica highlights nas seções de dicas expandidas
-            setTimeout(() => {
-                const expandedContent = document.querySelector('.dicas-text-content:not(.collapsed)');
-                if (expandedContent && typeof applyHighlightsDicas === 'function') {
-                    applyHighlightsDicas(expandedContent.id);
-                }
-            }, 100);
         });
     }
     
@@ -361,14 +354,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     renderDicasTrickList(category, listId);
                 }
                 
-                // Se é conteúdo de texto e está expandindo, aplica destaques das Dicas
-                if (isExpanding && targetElement.classList.contains('dicas-text-content')) {
-                    setTimeout(() => {
-                        if (typeof applyHighlightsDicas === 'function') {
-                            applyHighlightsDicas(targetElement.id);
-                        }
-                    }, 100);
-                }
             }
         });
     });
@@ -435,7 +420,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Inicializa sistema de destaques
+    if (typeof initHighlightSystem === 'function') {
     initHighlightSystem();
+    }
 
     // Configurações das metas
     const configFlipInOutCheck = document.getElementById('config-flip-inout');

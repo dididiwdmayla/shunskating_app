@@ -653,7 +653,7 @@ function playerMissed() {
         // Eu puxei e errei - SEM LETRA, só passa a vez
         addHistory('Você errou ao puxar ✗');
         updateSpeech(getPhrase('voce_perdendo'));
-        removeTrickFromPool(currentTrickInGame.id, currentTrickInGame.stance || 'regular');
+        // NÃO remove do pool - pode tentar de novo depois
         isPlayerPulling = false;
         setTimeout(() => opponentPullsTrick(), 2000);
     } else {
@@ -685,7 +685,7 @@ function playerMissed() {
             endGame(false);
         } else {
             // Adversário CONTINUA puxando
-            removeTrickFromPool(currentTrickInGame.id, currentTrickInGame.stance || 'regular');
+            // NÃO remove do pool - pode tentar de novo depois
             setTimeout(() => opponentPullsTrick(), 2000);
         }
     }

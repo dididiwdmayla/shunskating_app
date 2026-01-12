@@ -3284,88 +3284,6 @@ body, p, span, div, h1, h2, h3, h4, h5, h6, label, a, button, input, textarea {
     color: var(--red-light) !important;
 }
 
-/* Sistema de marcação de texto */
-.tips-content .user-highlight,
-.dicas-text-content .user-highlight,
-#detail-tips .user-highlight {
-    background: rgba(255, 215, 0, 0.35);
-    padding: 2px 4px;
-    border-radius: 3px;
-    cursor: pointer;
-    border-bottom: 2px solid #ffd700;
-    color: inherit;
-}
-
-.tips-content .user-highlight:hover,
-.dicas-text-content .user-highlight:hover,
-#detail-tips .user-highlight:hover {
-    background: rgba(255, 215, 0, 0.5);
-}
-
-/* Estilo alternativo mais colorido para mobile */
-@media (max-width: 768px) {
-    .tips-content .user-highlight,
-    .dicas-text-content .user-highlight,
-    #detail-tips .user-highlight {
-        background: rgba(255, 200, 0, 0.4);
-        border-bottom: 3px solid #ffcc00;
-    }
-}
-
-/* Menu de contexto para destacar */
-.highlight-menu {
-    position: fixed;
-    background: var(--bg-card);
-    border: 2px solid var(--red-main);
-    border-radius: 8px;
-    padding: 8px;
-    display: none;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-.highlight-menu.active {
-    display: flex;
-    gap: 8px;
-}
-
-.highlight-menu button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.2s ease;
-}
-
-.highlight-btn-mark {
-    background: #ffd700;
-    color: #000;
-}
-
-.highlight-btn-mark:hover {
-    background: #ffec80;
-}
-
-.highlight-btn-remove {
-    background: #e53935;
-    color: #fff;
-}
-
-.highlight-btn-remove:hover {
-    background: #ff5252;
-}
-
-.highlight-btn-cancel {
-    background: var(--bg-darker);
-    color: var(--text-light);
-    border: 1px solid rgba(255,255,255,0.2) !important;
-}
-
-.highlight-btn-cancel:hover {
-    background: var(--bg-card);
-}
-
 /* Modal de adicionar manobra */
 .modal-add-trick-content {
     max-height: 80vh;
@@ -4377,4 +4295,178 @@ main, body {
     max-height: calc(100vh - 150px);
     overflow-y: auto;
     padding-bottom: 20px;
+}
+
+/* ==========================================
+   SISTEMA DE DESTAQUE DE TEXTO
+   ========================================== */
+
+.user-highlight {
+    padding: 1px 2px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.user-highlight:hover {
+    filter: brightness(1.2);
+}
+
+/* Menu de destaque */
+.highlight-menu {
+    position: fixed;
+    background: var(--bg-card);
+    border: 2px solid var(--red-main);
+    border-radius: 8px;
+    padding: 6px;
+    display: none;
+    z-index: 1001;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    flex-direction: column;
+    gap: 4px;
+}
+
+.highlight-menu.active {
+    display: flex;
+}
+
+.hl-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.hl-btn-mark {
+    background: #ffd700;
+    color: #000;
+}
+
+.hl-btn-mark:hover {
+    background: #ffec80;
+}
+
+.hl-btn-group {
+    display: none;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.hl-btn-color {
+    background: linear-gradient(135deg, #ffd700 25%, #ff4444 25%, #ff4444 50%, #aa44ff 50%, #aa44ff 75%, #4488ff 75%);
+    color: #fff;
+    flex: 1;
+}
+
+.hl-btn-color:hover {
+    filter: brightness(1.1);
+}
+
+.hl-btn-remove {
+    background: #e53935;
+    color: #fff;
+    flex: 1;
+}
+
+.hl-btn-remove:hover {
+    background: #ff5252;
+}
+
+/* Disco de vinil - APENAS no player */
+#vinyl-disc {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-image: url('../assets/images/imagemdisco.png');
+    background-position: center;
+    background-size: cover;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+#vinyl-disc.spinning {
+    animation: vinylSpin 2s linear infinite;
+}
+
+@keyframes vinylSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Backup de Dados */
+.dicas-backup {
+    margin-top: 20px;
+    border-color: #ffd700;
+}
+
+.dicas-backup .dicas-section-header h3 {
+    color: #ffd700;
+}
+
+.dicas-backup-content {
+    padding: 15px;
+}
+
+.dicas-backup-content.collapsed {
+    display: none;
+}
+
+.dicas-backup-content.expanded {
+    display: block;
+}
+
+.backup-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.backup-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-backup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: var(--bg-card);
+    border: 2px solid var(--text-secondary);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-backup:hover {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.backup-icon {
+    font-size: 1.8rem;
+}
+
+.backup-text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.backup-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-left: auto;
+}
+
+.backup-note {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-top: 15px;
+    text-align: center;
 }

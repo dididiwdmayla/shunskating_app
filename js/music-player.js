@@ -236,6 +236,7 @@ function loadTrack(index) {
 }
 
 function playTrack() {
+    document.getElementById('vinyl-disc')?.classList.add('spinning');
     if (playlist.length === 0) return;
     
     if (currentTrackIndex === -1) {
@@ -249,6 +250,7 @@ function playTrack() {
 }
 
 function pauseTrack() {
+    document.getElementById('vinyl-disc')?.classList.remove('spinning');
     audioElement.pause();
     isPlaying = false;
     updatePlayButtons();

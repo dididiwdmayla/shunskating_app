@@ -577,17 +577,6 @@ function updateDetailForStance() {
         }
     }
 
-    // Aplica destaques salvos e inicializa sistema de highlight
-    setTimeout(() => {
-        if (typeof applyHighlights === 'function') {
-            applyHighlights();
-        }
-        // Reinicializa listeners do sistema de highlight para o novo conteúdo
-        if (typeof initHighlightSystem === 'function') {
-            initHighlightSystem();
-        }
-    }, 100);
-    
     // Atualiza progresso (único por stance)
     updateProgressBar(getProgress(currentTrick.id));
     
@@ -600,5 +589,12 @@ function updateDetailForStance() {
     // Atualiza vídeos e links (único por stance)
     renderVideos(currentTrick.id);
     renderLinks(currentTrick.id);
+    
+    // Restaura destaques salvos
+    setTimeout(() => {
+        if (typeof restoreHighlights === 'function') {
+            restoreHighlights();
+        }
+    }, 100);
 }
 
