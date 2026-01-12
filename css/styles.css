@@ -1,0 +1,4380 @@
+/* PWA Standalone Mode */
+@media all and (display-mode: standalone) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* Evita seleção acidental e comportamento de navegador */
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+}
+
+/* Permite seleção apenas nas dicas */
+.tips-content,
+.dicas-text-content,
+.dica-item p {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* ShunsKating - Styles */
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis CSS - Paleta de Cores */
+:root {
+    --bg-dark: #1a1a1a;
+    --bg-darker: #0d0d0d;
+    --bg-card: #252525;
+    --bg-card-hover: #2f2f2f;
+    --red-main: #cc0000;
+    --red-light: #ff3333;
+    --red-dark: #8b0000;
+    --red-glow: #ff0000;
+    --orange-glow: #ff6600;
+    --green-glow: #00ff44;
+    --text-light: #f0f0f0;
+    --text-muted: #888888;
+    --white: #ffffff;
+    --black: #000000;
+    --font-header: 'Bebas Neue', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+/* Body */
+body {
+    background-color: var(--bg-darker);
+    background-image: url('../assets/images/background_concrete.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: var(--text-light);
+    position: relative;
+}
+
+html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+/* Overlay escuro sobre o background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: -1;
+}
+
+/* Sections - Todas as telas */
+section {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-width: 100vw;
+    background-color: var(--bg-darker);
+    color: var(--text-light);
+}
+
+/* Section ativa */
+section.active {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Botão Principal */
+.btn-primary {
+    background: linear-gradient(135deg, var(--red-main) 0%, var(--red-dark) 100%);
+    color: var(--white) !important;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(204,0,0,0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(204,0,0,0.4);
+}
+
+.btn-primary:active {
+    transform: scale(0.95) translateY(0);
+    box-shadow: 0 2px 10px rgba(204,0,0,0.3);
+}
+
+/* Forma de shape de skate */
+.shape-btn {
+    position: relative;
+    background: linear-gradient(135deg, var(--red-main) 0%, var(--red-dark) 100%);
+    color: var(--white);
+    padding: 20px 50px;
+    border: none;
+    font-family: var(--font-header);
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    box-shadow: 
+        0 4px 0 var(--red-dark),
+        0 6px 20px rgba(0,0,0,0.5),
+        0 0 15px rgba(204,0,0,0.3);
+    max-width: 90%;
+}
+
+/* Furos dos parafusos - lado esquerdo (4 furos em retângulo) */
+.shape-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 22px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    box-shadow: 
+        12px 0 0 0 rgba(255,255,255,0.4),
+        0 10px 0 0 rgba(255,255,255,0.4),
+        12px 10px 0 0 rgba(255,255,255,0.4);
+}
+
+/* Furos dos parafusos - lado direito (4 furos em retângulo) */
+.shape-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 34px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    box-shadow: 
+        12px 0 0 0 rgba(255,255,255,0.4),
+        0 10px 0 0 rgba(255,255,255,0.4),
+        12px 10px 0 0 rgba(255,255,255,0.4);
+}
+
+.shape-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 7px 0 var(--red-dark),
+        0 10px 30px rgba(0,0,0,0.5),
+        0 0 25px rgba(255,0,0,0.4);
+}
+
+.shape-btn:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 2px 0 var(--red-dark),
+        0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* Variante secundária (outline) */
+.shape-btn-secondary {
+    position: relative;
+    background: transparent;
+    color: var(--red-light);
+    padding: 18px 50px;
+    border: 3px solid var(--red-main);
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    box-shadow: 
+        0 4px 20px rgba(0,0,0,0.4),
+        0 0 10px rgba(204,0,0,0.2);
+}
+
+/* Furos dos parafusos - lado esquerdo */
+.shape-btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    background: rgba(204,0,0,0.5);
+    border-radius: 50%;
+    box-shadow: 
+        10px 0 0 0 rgba(204,0,0,0.5),
+        0 8px 0 0 rgba(204,0,0,0.5),
+        10px 8px 0 0 rgba(204,0,0,0.5);
+}
+
+/* Furos dos parafusos - lado direito */
+.shape-btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    background: rgba(204,0,0,0.5);
+    border-radius: 50%;
+    box-shadow: 
+        10px 0 0 0 rgba(204,0,0,0.5),
+        0 8px 0 0 rgba(204,0,0,0.5),
+        10px 8px 0 0 rgba(204,0,0,0.5);
+}
+
+.shape-btn-secondary:hover {
+    background: rgba(204,0,0,0.15);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 30px rgba(0,0,0,0.4),
+        0 0 20px rgba(255,0,0,0.3);
+}
+
+.shape-btn-secondary:active {
+    transform: translateY(1px);
+}
+
+/* Card em formato de shape */
+.shape-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 2px solid rgba(204,0,0,0.3);
+    border-radius: 30px;
+    padding: 20px 30px;
+    box-shadow: 
+        0 4px 0 rgba(0,0,0,0.3),
+        0 6px 20px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.shape-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: rgba(204,0,0,0.1);
+    transform: translateY(-50%);
+}
+
+.shape-card:hover {
+    border-color: var(--red-main);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 7px 0 rgba(0,0,0,0.3),
+        0 10px 30px rgba(204,0,0,0.2);
+}
+
+.shape-card:active {
+    transform: translateY(1px);
+    box-shadow: 
+        0 2px 0 rgba(0,0,0,0.3),
+        0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Botão Secundário */
+.btn-secondary {
+    background: transparent;
+    color: var(--red-light) !important;
+    padding: 16px 32px;
+    border: 2px solid var(--red-main);
+    border-radius: 8px;
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-secondary:hover {
+    background: rgba(204,0,0,0.1);
+    box-shadow: 0 0 15px rgba(204,0,0,0.2);
+}
+
+.btn-secondary:active {
+    transform: scale(0.95);
+}
+
+/* Botão Sucesso */
+.btn-success {
+    background: linear-gradient(135deg, var(--green-glow) 0%, #3d8b40 100%);
+    color: white;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-success:active {
+    transform: scale(0.95);
+}
+
+/* Botão Erro */
+.btn-danger {
+    background: linear-gradient(135deg, var(--red-main) 0%, #cc3333 100%);
+    color: white;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255,68,68,0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-danger:active {
+    transform: scale(0.95);
+}
+
+/* Logo Container com Neon */
+.logo-container {
+    position: relative;
+    margin-top: 120px;
+    margin-bottom: 32px;
+    margin-left: 15px;
+    animation: fadeIn 0.6s ease-out, slideInDown 0.6s ease-out;
+    max-width: 100%;
+}
+
+.logo-image {
+    width: 420px;
+    max-width: 90%;
+    height: auto;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 0 10px var(--red-glow));
+    animation: neonGlow 3s ease-in-out infinite;
+}
+
+@keyframes neonGlow {
+    0%, 100% {
+        filter: 
+            drop-shadow(0 0 5px var(--red-glow))
+            drop-shadow(0 0 15px var(--red-glow))
+            drop-shadow(0 0 30px var(--red-dark));
+    }
+    33% {
+        filter: 
+            drop-shadow(0 0 5px var(--orange-glow))
+            drop-shadow(0 0 15px var(--orange-glow))
+            drop-shadow(0 0 30px #cc3300);
+    }
+    66% {
+        filter: 
+            drop-shadow(0 0 5px var(--green-glow))
+            drop-shadow(0 0 15px var(--green-glow))
+            drop-shadow(0 0 30px #00aa33);
+    }
+}
+
+/* Reflexo do neon no fundo */
+.logo-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 480px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(255,0,0,0.3) 0%, transparent 70%);
+    z-index: 1;
+    animation: neonReflection 3s ease-in-out infinite;
+    border-radius: 50%;
+}
+
+@keyframes neonReflection {
+    0%, 100% {
+        background: radial-gradient(ellipse, rgba(255,0,0,0.3) 0%, transparent 70%);
+    }
+    33% {
+        background: radial-gradient(ellipse, rgba(255,102,0,0.3) 0%, transparent 70%);
+    }
+    66% {
+        background: radial-gradient(ellipse, rgba(0,255,68,0.3) 0%, transparent 70%);
+    }
+}
+
+/* Tela Home */
+#home {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px 32px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--bg-darker);
+    background-image: url('../assets/images/background_graffiti.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#home.active {
+    display: flex;
+}
+
+/* Overlay escuro sobre o background da home */
+#home::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Todos os elementos da home ficam acima do overlay */
+#home > * {
+    position: relative;
+    z-index: 1;
+}
+
+#home .shape-btn {
+    width: 85%;
+    max-width: 320px;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    padding: 24px 40px;
+}
+
+#home .shape-btn-secondary {
+    margin-top: auto;
+    margin-bottom: 32px;
+    font-size: 1.1rem;
+}
+
+/* Tela de lista de manobras */
+#trick-list {
+    position: relative;
+    background-color: var(--bg-darker);
+    background-image: url('../assets/images/background_concrete.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+#trick-list::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 0;
+    pointer-events: none;
+}
+
+#tricks-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Tela de detalhes */
+#trick-detail {
+    position: relative;
+    background-color: var(--bg-darker);
+    background-image: url('../assets/images/background_concrete.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+#trick-detail::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.detail-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Tela do menu do game */
+#game-menu {
+    position: relative;
+    background-color: var(--bg-darker);
+    background-image: url('../assets/images/background_concrete.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+#game-menu::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.game-menu-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Tela do game */
+#game-play {
+    position: relative;
+    background-color: var(--bg-darker);
+    background-image: url('../assets/images/background_concrete.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+#game-play::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.game-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Garante que o conteúdo fica acima das texturas */
+.trick-list-header,
+.detail-header,
+.game-menu-header,
+.game-header,
+.detail-content,
+.game-menu-content,
+.game-content,
+#tricks-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Tela Trick List - Header */
+.trick-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: rgba(25, 25, 25, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--red-main);
+    color: var(--text-light);
+    position: sticky;
+    top: 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    animation: slideInDown 0.3s ease-out;
+    z-index: 10;
+}
+
+.trick-list-header h2 {
+    font-family: var(--font-header);
+    color: var(--red-light);
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+.btn-back {
+    background: transparent;
+    border: none;
+    color: var(--red-light);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    text-shadow: 0 0 10px rgba(255,0,0,0.5);
+}
+
+/* Container de filtros */
+.filters-container {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    position: relative;
+    z-index: 1;
+    background: rgba(37, 37, 37, 0.7) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 2px solid rgba(204,0,0,0.2);
+}
+
+/* Botões de filtro na lista de manobras */
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--red-main);
+    background: transparent;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--red-light);
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background: var(--red-main);
+    color: var(--white);
+    box-shadow: 0 0 15px rgba(204,0,0,0.4);
+}
+
+/* Container de Tricks */
+#tricks-container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Cards de manobra */
+.trick-card {
+    position: relative;
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(204,0,0,0.3);
+    border-radius: 25px;
+    padding: 18px 24px;
+    box-shadow: 
+        0 3px 0 rgba(0,0,0,0.5),
+        0 5px 15px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-light);
+    overflow: hidden;
+}
+
+.trick-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    right: 15px;
+    height: 1px;
+    background: rgba(204,0,0,0.1);
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.trick-card .trick-name,
+.trick-card .trick-difficulty {
+    position: relative;
+    z-index: 1;
+}
+
+.trick-card:hover {
+    border-color: var(--red-main);
+    background: rgba(47, 47, 47, 0.7) !important;
+    transform: translateY(-3px) rotate(-0.5deg);
+    box-shadow: 
+        0 6px 0 rgba(0,0,0,0.5),
+        0 10px 25px rgba(204,0,0,0.2);
+}
+
+.trick-card:active {
+    transform: translateY(1px) rotate(0deg);
+}
+
+/* Furos dos parafusos nos cards */
+.trick-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: rgba(204,0,0,0.4);
+    border-radius: 50%;
+    box-shadow: 
+        /* Lado esquerdo - retângulo */
+        8px 0 0 0 rgba(204,0,0,0.4),
+        0 7px 0 0 rgba(204,0,0,0.4),
+        8px 7px 0 0 rgba(204,0,0,0.4),
+        /* Lado direito - retângulo */
+        calc(100% - 26px) 0 0 rgba(204,0,0,0.4),
+        calc(100% - 18px) 0 0 rgba(204,0,0,0.4),
+        calc(100% - 26px) 7px 0 rgba(204,0,0,0.4),
+        calc(100% - 18px) 7px 0 rgba(204,0,0,0.4);
+}
+
+.trick-name {
+    font-family: var(--font-header);
+    font-size: 1.3rem;
+    color: var(--red-light);
+    position: relative;
+    z-index: 1;
+}
+
+/* Bolinhas de dificuldade */
+.difficulty-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.difficulty-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 2px solid var(--red-main);
+    transition: all 0.3s ease;
+}
+
+.difficulty-dot.filled {
+    background: var(--red-main);
+    box-shadow: 0 0 8px rgba(204,0,0,0.5);
+}
+
+/* Badges de dificuldade */
+.trick-difficulty {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.difficulty-facil {
+    background: var(--green-glow);
+    color: var(--black);
+}
+
+.difficulty-intermediaria {
+    background: var(--orange-glow);
+    color: var(--black);
+}
+
+.difficulty-dificil {
+    background: var(--red-main);
+    color: var(--white);
+}
+
+/* Detalhe da Manobra */
+.detail-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: rgba(25, 25, 25, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--red-main);
+    color: var(--text-light);
+    position: sticky;
+    top: 0;
+    gap: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    animation: slideInDown 0.3s ease-out;
+    z-index: 10;
+}
+
+.detail-header h2 {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--red-light);
+    text-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+.detail-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.detail-difficulty {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+    color: var(--text-light);
+}
+
+.detail-section {
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(204,0,0,0.2);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.detail-section h3 {
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    color: var(--red-main);
+    margin-bottom: 12px;
+}
+
+.tips-content {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Formatação do conteúdo HTML das dicas */
+.tips-content h4 {
+    color: var(--red-light) !important;
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    margin: 20px 0 10px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(204, 0, 0, 0.3);
+}
+
+.tips-content h4:first-child {
+    margin-top: 0;
+}
+
+.tips-content h5 {
+    color: #ff9800 !important;
+    font-size: 0.95rem;
+    margin: 15px 0 8px 0;
+    font-weight: bold;
+}
+
+.tips-content p {
+    color: var(--text-light) !important;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+}
+
+.tips-content ul, 
+.tips-content ol {
+    color: var(--text-light) !important;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+    padding-left: 20px;
+}
+
+.tips-content li {
+    margin-bottom: 6px;
+}
+
+.tips-content strong {
+    color: #4caf50 !important;
+}
+
+.tips-content em {
+    color: #ce93d8 !important;
+    font-style: italic;
+}
+
+.tips-content blockquote {
+    border-left: 3px solid var(--red-main);
+    padding-left: 12px;
+    margin: 12px 0;
+    color: var(--text-muted) !important;
+    font-style: italic;
+}
+
+.tips-content hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 16px 0;
+}
+
+.tips-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.85rem;
+}
+
+.tips-content th {
+    background: rgba(204, 0, 0, 0.2);
+    color: var(--red-light) !important;
+    padding: 8px;
+    text-align: left;
+    border: 1px solid rgba(204, 0, 0, 0.3);
+}
+
+.tips-content td {
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light) !important;
+}
+
+.tips-content tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.progress-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* Botões de progresso */
+.progress-btn {
+    padding: 12px 8px;
+    border: 2px solid var(--red-main);
+    background: rgba(37, 37, 37, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--red-main);
+}
+
+.progress-btn.active {
+    background: var(--green-glow);
+    border-color: var(--green-glow);
+    color: white;
+}
+
+/* Barra de progresso horizontal */
+.progress-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+    width: 100%;
+}
+
+.progress-bar {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.progress-segment {
+    flex: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.progress-segment:hover {
+    filter: brightness(1.2);
+}
+
+.progress-segment.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    color: rgba(0,0,0,0.6);
+    font-weight: bold;
+}
+
+.progress-segment[data-progress="0"] {
+    background: #e53935;
+}
+
+.progress-segment[data-progress="1"] {
+    background: #ff9800;
+}
+
+.progress-segment[data-progress="2"] {
+    background: #ffeb3b;
+}
+
+.progress-segment[data-progress="3"] {
+    background: #8bc34a;
+}
+
+.progress-segment[data-progress="4"] {
+    background: #4caf50;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.progress-labels span {
+    flex: 1;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.progress-current {
+    margin-top: 12px;
+    font-family: var(--font-header);
+    font-size: 1.3rem;
+    color: var(--red-light);
+    text-transform: uppercase;
+}
+
+/* Seleção de base */
+.stance-selection {
+    padding: 16px;
+    text-align: center;
+}
+
+.stance-selection h3 {
+    color: var(--red-light);
+    margin-bottom: 16px;
+    font-family: var(--font-header);
+}
+
+.stance-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.stance-btn {
+    padding: 16px;
+    background: rgba(37, 37, 37, 0.7);
+    border: 2px solid var(--red-main);
+    border-radius: 12px;
+    color: var(--red-light);
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stance-btn:hover {
+    background: rgba(204, 0, 0, 0.2);
+    border-color: var(--red-light);
+}
+
+.stance-btn:active {
+    transform: scale(0.95);
+}
+
+/* Cores diferentes por dificuldade da base */
+.stance-btn[data-stance="regular"] {
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
+.stance-btn[data-stance="fakie"] {
+    border-color: #ffeb3b;
+    color: #ffeb3b;
+}
+
+.stance-btn[data-stance="nollie"] {
+    border-color: #ff9800;
+    color: #ff9800;
+}
+
+.stance-btn[data-stance="switch"] {
+    border-color: #e53935;
+    color: #e53935;
+}
+
+/* Seletor de stance na tela de detalhes */
+.stance-switcher {
+    padding: 12px 16px;
+    background: rgba(37, 37, 37, 0.8);
+    border-bottom: 1px solid rgba(204, 0, 0, 0.3);
+}
+
+.btn-change-stance {
+    width: 100%;
+    padding: 12px;
+    background: rgba(204, 0, 0, 0.2);
+    border: 2px solid var(--red-main);
+    border-radius: 8px;
+    color: var(--red-light);
+    font-family: var(--font-header);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-change-stance:hover {
+    background: rgba(204, 0, 0, 0.3);
+}
+
+.stance-options {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.stance-option {
+    flex: 1;
+    padding: 10px 8px;
+    background: rgba(37, 37, 37, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stance-option:hover {
+    border-color: var(--red-main);
+    color: var(--text-light);
+}
+
+.stance-option.active {
+    background: var(--red-main);
+    border-color: var(--red-main);
+    color: var(--white);
+}
+
+.stance-option[data-stance="regular"].active {
+    background: #4caf50;
+    border-color: #4caf50;
+}
+
+.stance-option[data-stance="fakie"].active {
+    background: #ffeb3b;
+    border-color: #ffeb3b;
+    color: var(--black);
+}
+
+.stance-option[data-stance="nollie"].active {
+    background: #ff9800;
+    border-color: #ff9800;
+    color: var(--black);
+}
+
+.stance-option[data-stance="switch"].active {
+    background: #e53935;
+    border-color: #e53935;
+}
+
+.current-stance-label {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: rgba(37, 37, 37, 0.5);
+    text-align: center;
+    border-bottom: 1px solid rgba(204, 0, 0, 0.2);
+}
+
+.trick-selection-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 0 16px;
+}
+
+.trick-selection-header h3 {
+    color: var(--red-light);
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-back-stance {
+    background: transparent;
+    border: none;
+    color: var(--red-light);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-back-stance:hover {
+    background: rgba(204, 0, 0, 0.2);
+}
+
+.videos-grid {
+    margin-bottom: 12px;
+}
+
+/* Textos vazios */
+.empty-tips, .empty-videos, .empty-links {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 12px;
+}
+
+/* Campo de anotações pessoais */
+.personal-notes-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 2px solid rgba(204,0,0,0.3);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    background: rgba(26, 26, 26, 0.8);
+    color: var(--text-light);
+    resize: vertical;
+    margin-bottom: 12px;
+}
+
+.personal-notes-input:focus {
+    outline: none;
+    border-color: var(--red-main);
+    box-shadow: 0 0 10px rgba(204,0,0,0.3);
+}
+
+.personal-notes-input::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.btn-save-notes {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+}
+
+/* Modal de Links */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+/* Modal content */
+.modal-content {
+    background: rgba(37, 37, 37, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid var(--red-main);
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--text-light);
+    box-shadow: 
+        0 0 30px rgba(204,0,0,0.3),
+        0 10px 40px rgba(0,0,0,0.6);
+}
+
+.modal-content h3 {
+    font-family: var(--font-header);
+    color: var(--red-light);
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+/* Inputs nos modais */
+.modal-content input {
+    padding: 12px;
+    border: 2px solid rgba(204,0,0,0.3);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    background: var(--bg-darker);
+    color: var(--text-light);
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--red-main);
+}
+
+.modal-content input::placeholder {
+    color: var(--text-muted);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 12px;
+}
+
+/* Links */
+.link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(204,0,0,0.2);
+}
+
+.link-item a {
+    flex: 1;
+    color: var(--red-main);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-item .btn-delete {
+    background: var(--red-main);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Modal de Vídeo */
+.modal-video-content {
+    max-width: 100%;
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#video-preview {
+    flex: 1;
+    background: #000;
+    border-radius: 8px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.video-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 0;
+}
+
+.video-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.video-item {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.video-item .btn-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--red-main);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* Game of S.K.A.T.E. - Menu Header */
+.game-menu-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: rgba(25, 25, 25, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--red-main);
+    color: var(--text-light);
+    gap: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    animation: slideInDown 0.3s ease-out;
+    z-index: 10;
+}
+
+.game-menu-header h2 {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--red-light);
+    text-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+.game-menu-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.game-section {
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(204,0,0,0.2);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.game-section h3 {
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    color: var(--red-light);
+    margin-bottom: 12px;
+}
+
+/* Game of S.K.A.T.E. - Dificuldades */
+.difficulty-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Botões de dificuldade no menu do game */
+.difficulty-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 24px;
+    border: 2px solid rgba(204,0,0,0.5);
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.3), 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.difficulty-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    right: 15px;
+    height: 1px;
+    background: rgba(204,0,0,0.1);
+    transform: translateY(-50%);
+}
+
+.difficulty-btn .diff-name,
+.difficulty-btn .diff-desc {
+    position: relative;
+    z-index: 1;
+}
+
+.difficulty-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(47, 47, 47, 0.7) !important;
+    border-color: var(--red-main);
+}
+
+.difficulty-btn.selected {
+    border-color: var(--red-light);
+    background: rgba(204, 0, 0, 0.2) !important;
+    box-shadow: 0 3px 0 rgba(204,0,0,0.3), 0 4px 20px rgba(204,0,0,0.2);
+}
+
+/* Furos dos parafusos nos botões de dificuldade */
+.difficulty-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: rgba(204,0,0,0.4);
+    border-radius: 50%;
+    box-shadow: 
+        8px 0 0 0 rgba(204,0,0,0.4),
+        0 7px 0 0 rgba(204,0,0,0.4),
+        8px 7px 0 0 rgba(204,0,0,0.4),
+        calc(100% - 26px) 0 0 rgba(204,0,0,0.4),
+        calc(100% - 18px) 0 0 rgba(204,0,0,0.4),
+        calc(100% - 26px) 7px 0 rgba(204,0,0,0.4),
+        calc(100% - 18px) 7px 0 rgba(204,0,0,0.4);
+}
+
+.diff-name {
+    font-weight: bold;
+    color: var(--red-light);
+    font-size: 1.1rem;
+}
+
+.diff-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.game-type-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* Botões de tipo de game */
+.game-type-btn {
+    padding: 12px;
+    border: 2px solid var(--red-main);
+    background: rgba(37, 37, 37, 0.5) !important;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--red-light) !important;
+}
+
+.game-type-btn.active {
+    background: rgba(204, 0, 0, 0.8) !important;
+    color: var(--white) !important;
+}
+
+.btn-start-game {
+    margin-top: auto;
+    padding: 18px;
+    font-size: 1.3rem;
+    color: var(--white) !important;
+}
+
+.btn-start-game:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Botões do Coin Flip - força visibilidade */
+.coin-buttons .btn-primary,
+.coin-buttons .btn-secondary {
+    color: var(--white) !important;
+    font-weight: bold;
+}
+
+.coin-buttons .btn-secondary {
+    color: var(--red-light) !important;
+}
+
+/* Botões de oponente (se ainda existir) */
+.opponents-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.opponent-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 2px solid rgba(204,0,0,0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-light);
+}
+
+.opponent-btn.selected {
+    border-color: var(--red-main);
+    background: rgba(204,0,0,0.15);
+}
+
+.opponent-name {
+    font-weight: bold;
+    color: var(--red-light);
+}
+
+.opponent-level {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Tela do Game */
+.game-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: rgba(25, 25, 25, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--red-main);
+    color: var(--text-light);
+    gap: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    animation: slideInDown 0.3s ease-out;
+    z-index: 10;
+}
+
+.game-header h2 {
+    font-family: var(--font-header);
+    font-size: 1.3rem;
+    margin: 0;
+    color: var(--red-light);
+    text-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+.game-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(204,0,0,0.3);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.player-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.player-name {
+    font-family: var(--font-header);
+    font-size: 0.9rem;
+    color: var(--red-light);
+}
+
+.letters {
+    display: flex;
+    gap: 4px;
+}
+
+/* Letras do placar */
+.letter {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-header);
+    font-size: 0.9rem;
+    border-radius: 4px;
+    background: var(--red-main);
+    color: var(--white);
+    box-shadow: 0 0 10px rgba(255,0,0,0.4);
+}
+
+.letter.empty {
+    background: var(--bg-darker);
+    color: var(--text-muted);
+    border: 1px solid rgba(204,0,0,0.3);
+    box-shadow: none;
+}
+
+.vs {
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    color: var(--red-light);
+}
+
+.current-trick-container {
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(204,0,0,0.3);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.trick-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.current-trick {
+    font-family: var(--font-header);
+    font-size: 2rem;
+    color: var(--red-light);
+    margin: 12px 0;
+    text-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+.btn-tips {
+    background: transparent;
+    border: 2px solid var(--red-main);
+    color: var(--red-light);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-tips:hover {
+    background: rgba(204,0,0,0.15);
+}
+
+.game-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-game-action {
+    flex: 1;
+    padding: 18px;
+    font-size: 1.2rem;
+}
+
+.opponent-speech {
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(204,0,0,0.2);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    min-height: 80px;
+}
+
+.speech-name {
+    font-weight: bold;
+    color: var(--red-main);
+    font-size: 0.9rem;
+}
+
+.speech-text {
+    margin: 8px 0 0 0;
+    font-style: italic;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+.game-history {
+    background: rgba(37, 37, 37, 0.6) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(204,0,0,0.2);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.game-history h4 {
+    font-family: var(--font-header);
+    color: var(--red-main);
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+}
+
+.history-item {
+    font-size: 0.85rem;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(204,0,0,0.1);
+    color: var(--text-light);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+/* Coin flip modal */
+.modal-coin-content {
+    text-align: center;
+}
+
+.coin-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.coin-buttons button {
+    flex: 1;
+}
+
+.coin-result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--red-main);
+    min-height: 30px;
+}
+
+/* Escolha de manobra no game */
+.tricks-choose-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.trick-choose-btn {
+    padding: 14px;
+    border: 2px solid rgba(204,0,0,0.3);
+    background: rgba(37, 37, 37, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--red-main);
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.trick-choose-btn:hover {
+    border-color: var(--red-main);
+    background: rgba(47, 47, 47, 0.8);
+}
+
+/* Tela de fim de jogo */
+.modal-game-over-content {
+    text-align: center;
+}
+
+.modal-game-over-content h2 {
+    font-family: var(--font-header);
+    font-size: 2rem;
+    color: var(--green-glow);
+    margin-bottom: 20px;
+}
+
+.modal-game-over-content h2.lost {
+    color: var(--red-main);
+}
+
+.final-score {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 24px;
+}
+
+.final-score > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.final-score span:first-child {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.final-score span:last-child {
+    font-family: var(--font-header);
+    font-size: 1.3rem;
+    color: var(--red-main);
+}
+
+.game-over-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Overlay de suspense */
+.suspense-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.suspense-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.suspense-card {
+    background: rgba(37, 37, 37, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 3px solid var(--red-main);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: center;
+    box-shadow: 
+        0 0 50px rgba(204,0,0,0.4),
+        0 10px 40px rgba(0,0,0,0.6);
+    animation: suspenseCardPulse 1.5s ease-in-out infinite;
+    max-width: 300px;
+    width: 90%;
+}
+
+@keyframes suspenseCardPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 50px rgba(204,0,0,0.4);
+    }
+    50% { 
+        transform: scale(1.02);
+        box-shadow: 0 0 70px rgba(255,0,0,0.5);
+    }
+}
+
+.suspense-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    animation: skateRoll 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes skateRoll {
+    0% { transform: translateX(-10px) rotate(-5deg); }
+    100% { transform: translateX(10px) rotate(5deg); }
+}
+
+.suspense-text {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
+    color: var(--red-light);
+    margin: 0 0 24px 0;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px rgba(255,0,0,0.4);
+}
+
+.suspense-loader {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.suspense-loader span {
+    width: 12px;
+    height: 12px;
+    background: var(--red-main);
+    border-radius: 50%;
+    animation: loaderBounce 0.6s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(255,0,0,0.5);
+}
+
+.suspense-loader span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.suspense-loader span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes loaderBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-15px); opacity: 1; }
+}
+
+/* Card de resultado após suspense */
+.suspense-card.result {
+    animation: none;
+}
+
+.suspense-card.result.success {
+    border-color: var(--green-glow);
+    box-shadow: 0 0 50px rgba(0,255,68,0.4);
+}
+
+.suspense-card.result.fail {
+    border-color: var(--red-main);
+    box-shadow: 0 0 50px rgba(255,0,0,0.5);
+}
+
+.result-text {
+    font-family: var(--font-header);
+    font-size: 2rem;
+    margin: 0;
+}
+
+.result-text.success {
+    color: var(--green-glow);
+    text-shadow: 0 0 15px rgba(0,255,68,0.5);
+}
+
+.result-text.fail {
+    color: var(--red-light);
+    text-shadow: 0 0 15px rgba(255,0,0,0.5);
+}
+
+/* Animações de transição */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Transição padrão das telas */
+section.active {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Animação dos cards na lista */
+.trick-card {
+    animation: slideInUp 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.trick-card:nth-child(1) { animation-delay: 0.05s; }
+.trick-card:nth-child(2) { animation-delay: 0.1s; }
+.trick-card:nth-child(3) { animation-delay: 0.15s; }
+.trick-card:nth-child(4) { animation-delay: 0.2s; }
+.trick-card:nth-child(5) { animation-delay: 0.25s; }
+.trick-card:nth-child(6) { animation-delay: 0.3s; }
+.trick-card:nth-child(7) { animation-delay: 0.35s; }
+.trick-card:nth-child(8) { animation-delay: 0.4s; }
+.trick-card:nth-child(9) { animation-delay: 0.45s; }
+.trick-card:nth-child(10) { animation-delay: 0.5s; }
+
+/* Animação dos botões na home */
+#home .btn-primary,
+#home .btn-secondary,
+#home .shape-btn,
+#home .shape-btn-secondary {
+    animation: slideInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+#home .btn-primary:nth-of-type(1) { animation-delay: 0.1s; }
+#home .btn-primary:nth-of-type(2) { animation-delay: 0.2s; }
+#home .btn-primary:nth-of-type(3) { animation-delay: 0.3s; }
+#home .btn-secondary { animation-delay: 0.4s; }
+
+#home .shape-btn:nth-of-type(1) { animation-delay: 0.1s; }
+#home .shape-btn:nth-of-type(2) { animation-delay: 0.2s; }
+#home .shape-btn:nth-of-type(3) { animation-delay: 0.3s; }
+#home .shape-btn-secondary { animation-delay: 0.4s; }
+
+/* Logo com animação */
+.logo-title {
+    animation: fadeIn 0.6s ease-out, slideInDown 0.6s ease-out;
+}
+
+/* Animação dos headers */
+.trick-list-header,
+.detail-header,
+.game-menu-header,
+.game-header {
+    animation: slideInDown 0.3s ease-out;
+}
+
+/* Animação dos filtros */
+.filters-container {
+    animation: fadeIn 0.4s ease-out;
+    animation-delay: 0.1s;
+    animation-fill-mode: both;
+}
+
+.filter-btn {
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Animação dos cards de dificuldade no game menu */
+.difficulty-btn {
+    animation: slideInUp 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.difficulty-btn:nth-child(1) { animation-delay: 0.05s; }
+.difficulty-btn:nth-child(2) { animation-delay: 0.1s; }
+.difficulty-btn:nth-child(3) { animation-delay: 0.15s; }
+.difficulty-btn:nth-child(4) { animation-delay: 0.2s; }
+.difficulty-btn:nth-child(5) { animation-delay: 0.25s; }
+
+/* Animação dos botões de tipo de game */
+.game-type-btn {
+    animation: slideInUp 0.4s ease-out;
+    animation-fill-mode: both;
+    animation-delay: 0.3s;
+}
+
+/* Animação das seções na tela de detalhes */
+.detail-section {
+    animation: slideInUp 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.detail-section:nth-of-type(1) { animation-delay: 0.1s; }
+.detail-section:nth-of-type(2) { animation-delay: 0.15s; }
+.detail-section:nth-of-type(3) { animation-delay: 0.2s; }
+.detail-section:nth-of-type(4) { animation-delay: 0.25s; }
+
+/* Animação do placar no game */
+.scoreboard {
+    animation: slideInDown 0.4s ease-out;
+}
+
+.current-trick-container {
+    animation: fadeIn 0.5s ease-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+}
+
+.game-actions {
+    animation: slideInUp 0.4s ease-out;
+    animation-delay: 0.3s;
+    animation-fill-mode: both;
+}
+
+.opponent-speech {
+    animation: slideInUp 0.4s ease-out;
+    animation-delay: 0.4s;
+    animation-fill-mode: both;
+}
+
+.game-history {
+    animation: slideInUp 0.4s ease-out;
+    animation-delay: 0.5s;
+    animation-fill-mode: both;
+}
+
+/* Animação dos modais */
+.modal.active {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal.active .modal-content {
+    animation: slideInUp 0.4s ease-out;
+}
+
+/* Letras do placar com pulse ao ganhar */
+@keyframes letterPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.letter.new {
+    animation: letterPulse 0.5s ease-out;
+}
+
+/* Shake no placar quando ganha letra */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+}
+
+.scoreboard.shake {
+    animation: shake 0.5s ease-out;
+}
+
+/* Animação dos botões de escolha de manobra */
+.trick-choose-btn {
+    animation: slideInUp 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.trick-choose-btn:nth-child(1) { animation-delay: 0.02s; }
+.trick-choose-btn:nth-child(2) { animation-delay: 0.04s; }
+.trick-choose-btn:nth-child(3) { animation-delay: 0.06s; }
+.trick-choose-btn:nth-child(4) { animation-delay: 0.08s; }
+.trick-choose-btn:nth-child(5) { animation-delay: 0.1s; }
+.trick-choose-btn:nth-child(6) { animation-delay: 0.12s; }
+.trick-choose-btn:nth-child(7) { animation-delay: 0.14s; }
+.trick-choose-btn:nth-child(8) { animation-delay: 0.16s; }
+.trick-choose-btn:nth-child(9) { animation-delay: 0.18s; }
+.trick-choose-btn:nth-child(10) { animation-delay: 0.2s; }
+
+/* ============================================
+   CORES DE TEXTO EXPLÍCITAS
+   ============================================ */
+
+/* Reset de cores de texto - força branco em tudo */
+body, p, span, div, h1, h2, h3, h4, h5, h6, label, a, button, input, textarea {
+    color: var(--text-light);
+}
+
+/* Textos específicos que precisam de cor */
+.trick-name {
+    color: var(--red-light) !important;
+}
+
+.trick-difficulty {
+    color: var(--white) !important;
+}
+
+.difficulty-facil {
+    background: var(--green-glow);
+    color: var(--black) !important;
+}
+
+.difficulty-intermediaria {
+    background: var(--orange-glow);
+    color: var(--black) !important;
+}
+
+.difficulty-dificil {
+    background: var(--red-main);
+    color: var(--white) !important;
+}
+
+/* Cards de dificuldade no game menu */
+.diff-name {
+    color: var(--red-light) !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.diff-desc {
+    color: var(--text-muted) !important;
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* Botões de tipo de game */
+.game-type-btn {
+    color: var(--red-light) !important;
+    border: 2px solid var(--red-main);
+    background: transparent;
+}
+
+.game-type-btn.active {
+    background: var(--red-main);
+    color: var(--white) !important;
+}
+
+/* Filtros */
+.filter-btn {
+    color: var(--red-light) !important;
+}
+
+.filter-btn.active {
+    color: var(--white) !important;
+}
+
+/* Botões de progresso */
+.progress-btn {
+    color: var(--red-light) !important;
+    border: 2px solid var(--red-main);
+    background: transparent;
+}
+
+.progress-btn.active {
+    background: var(--green-glow);
+    border-color: var(--green-glow);
+    color: var(--black) !important;
+}
+
+/* Seções de detalhes */
+.detail-section {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.detail-section h3 {
+    color: var(--red-light) !important;
+}
+
+.detail-difficulty span {
+    color: var(--text-light) !important;
+}
+
+/* Game sections */
+.game-section {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.game-section h3 {
+    color: var(--red-light) !important;
+}
+
+/* Scoreboard */
+.scoreboard {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.player-name {
+    color: var(--red-light) !important;
+}
+
+.vs {
+    color: var(--red-light) !important;
+}
+
+/* Manobra atual */
+.current-trick-container {
+    background: var(--bg-card);
+}
+
+.trick-label {
+    color: var(--text-muted) !important;
+}
+
+.current-trick {
+    color: var(--red-light) !important;
+}
+
+/* Speech do oponente */
+.opponent-speech {
+    background: var(--bg-card);
+}
+
+.speech-name {
+    color: var(--red-light) !important;
+}
+
+.speech-text {
+    color: var(--text-light) !important;
+}
+
+/* Histórico */
+.game-history {
+    background: var(--bg-card);
+}
+
+.game-history h4 {
+    color: var(--red-light) !important;
+}
+
+.history-item {
+    color: var(--text-light) !important;
+}
+
+/* Modais */
+.modal-content {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.modal-content h3 {
+    color: var(--red-light) !important;
+}
+
+.modal-content p {
+    color: var(--text-light) !important;
+}
+
+.modal-content input {
+    background: var(--bg-darker);
+    color: var(--text-light) !important;
+    border: 2px solid rgba(204,0,0,0.3);
+}
+
+.modal-content input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Botões de escolha de manobra */
+.trick-choose-btn {
+    background: var(--bg-card);
+    color: var(--red-light) !important;
+    border: 2px solid rgba(204,0,0,0.3);
+}
+
+.trick-choose-btn:hover {
+    border-color: var(--red-main);
+    background: var(--bg-card-hover);
+}
+
+/* Coin flip */
+.coin-result {
+    color: var(--red-light) !important;
+}
+
+/* Game over */
+.final-score span {
+    color: var(--text-light) !important;
+}
+
+.final-score span:last-child {
+    color: var(--red-light) !important;
+}
+
+/* Links */
+.link-item a {
+    color: var(--red-light) !important;
+}
+
+/* Textos vazios */
+.empty-tips, .empty-videos, .empty-links {
+    color: var(--text-muted) !important;
+}
+
+/* Textos do tips/dicas */
+.tips-content {
+    color: var(--text-light) !important;
+}
+
+/* Tabs das metas */
+.meta-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.meta-tab {
+    flex: 1;
+    padding: 10px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.meta-tab.active {
+    background: var(--red-main);
+    border-color: var(--red-main);
+    color: #ffffff !important;
+}
+
+.meta-tab-content {
+    animation: fadeIn 0.3s ease;
+}
+
+.meta-tab-content.hidden {
+    display: none;
+}
+
+/* Botão adicionar manobra */
+.btn-add-trick {
+    width: 100%;
+    padding: 12px;
+    background: rgba(156, 39, 176, 0.2);
+    border: 2px dashed #9c27b0;
+    border-radius: 8px;
+    color: #ce93d8 !important;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.btn-add-trick:hover {
+    background: rgba(156, 39, 176, 0.3);
+}
+
+/* Linha personalizada - tricks removíveis */
+.linha-trick-custom {
+    padding: 8px 14px;
+    background: rgba(204, 0, 0, 0.2);
+    border: 2px solid var(--red-main);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.linha-trick-remove {
+    background: none;
+    border: none;
+    color: #ff6666;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+}
+
+.linha-trick-remove:hover {
+    color: #ff0000;
+}
+
+/* Botão Metas - roxo */
+.btn-metas {
+    background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%) !important;
+    box-shadow: 
+        0 4px 0 #4a148c,
+        0 6px 20px rgba(0,0,0,0.5),
+        0 0 15px rgba(156,39,176,0.3) !important;
+}
+
+.btn-metas:hover {
+    box-shadow: 
+        0 7px 0 #4a148c,
+        0 10px 30px rgba(0,0,0,0.5),
+        0 0 25px rgba(156,39,176,0.4) !important;
+}
+
+.btn-metas:active {
+    box-shadow: 
+        0 2px 0 #4a148c,
+        0 4px 10px rgba(0,0,0,0.5) !important;
+}
+
+/* Botão Dicas - laranja */
+.btn-dicas {
+    background: linear-gradient(135deg, #ff9800 0%, #e65100 100%) !important;
+    box-shadow: 
+        0 4px 0 #bf360c,
+        0 6px 20px rgba(0,0,0,0.5),
+        0 0 15px rgba(255,152,0,0.3) !important;
+}
+
+.btn-dicas:hover {
+    box-shadow: 
+        0 7px 0 #bf360c,
+        0 10px 30px rgba(0,0,0,0.5),
+        0 0 25px rgba(255,152,0,0.4) !important;
+}
+
+.btn-dicas:active {
+    box-shadow: 
+        0 2px 0 #bf360c,
+        0 4px 10px rgba(0,0,0,0.5) !important;
+}
+
+/* Headers das novas telas */
+.metas-header,
+.dicas-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-darker) 100%);
+    border-bottom: 3px solid var(--red-main);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.metas-header h2,
+.dicas-header h2 {
+    color: var(--red-light) !important;
+    font-family: var(--font-header);
+    margin: 0;
+    flex: 1;
+}
+
+/* Conteúdo das Metas */
+.metas-content,
+.dicas-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.meta-section {
+    background: rgba(37, 37, 37, 0.7);
+    border: 2px solid rgba(204, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.meta-section h3 {
+    color: var(--red-light) !important;
+    font-family: var(--font-header);
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+}
+
+.meta-desc {
+    color: var(--text-muted) !important;
+    font-size: 0.85rem;
+    margin: 0 0 16px 0;
+}
+
+/* Items da meta diária */
+.meta-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(26, 26, 26, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.meta-checkbox {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--red-main);
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.meta-checkbox.checked {
+    background: #4caf50;
+    border-color: #4caf50;
+}
+
+.meta-checkbox.checked::after {
+    content: '✓';
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.meta-item-info {
+    flex: 1;
+}
+
+.meta-item-category {
+    font-size: 0.7rem;
+    color: var(--text-muted) !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.meta-item-name {
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    color: #ffffff !important;
+}
+
+/* Linha de manobras */
+.meta-linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.linha-trick {
+    padding: 8px 14px;
+    background: rgba(204, 0, 0, 0.2);
+    border: 2px solid var(--red-main);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #ffffff !important;
+}
+
+.linha-arrow {
+    color: var(--red-light) !important;
+    font-size: 1.2rem;
+}
+
+/* Botão concluir */
+.meta-actions {
+    text-align: center;
+}
+
+.btn-meta-concluir {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+    border: none;
+    border-radius: 8px;
+    color: white !important;
+    font-family: var(--font-header);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-meta-concluir:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76,175,80,0.4);
+}
+
+.btn-meta-concluir:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-meta-concluir.completed {
+    background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
+}
+
+/* Configurações */
+.meta-config {
+    border-color: rgba(156,39,176,0.3);
+}
+
+.config-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.config-toggle:last-child {
+    border-bottom: none;
+}
+
+.config-toggle input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--red-main);
+    cursor: pointer;
+}
+
+.toggle-label {
+    color: #ffffff !important;
+    font-size: 0.95rem;
+}
+
+/* Tela de Dicas */
+.dicas-intro {
+    color: var(--text-muted) !important;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Seções de Dicas */
+.dicas-section {
+    background: rgba(37, 37, 37, 0.7);
+    border: 2px solid rgba(204, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.dicas-section h3 {
+    color: var(--red-light) !important;
+    font-family: var(--font-header);
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+}
+
+.dicas-section-desc {
+    color: var(--text-muted) !important;
+    font-size: 0.85rem;
+    margin: 0 0 16px 0;
+}
+
+.dicas-tricks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dicas-trick-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(26, 26, 26, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dicas-trick-item:hover {
+    border-color: var(--red-main);
+    background: rgba(40, 40, 40, 0.9);
+}
+
+.dicas-trick-name {
+    color: #ffffff !important;
+    font-family: var(--font-header);
+    font-size: 1rem;
+}
+
+.dicas-trick-difficulty {
+    display: flex;
+    gap: 3px;
+}
+
+.dicas-trick-difficulty .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid var(--red-main);
+}
+
+.dicas-trick-difficulty .dot.filled {
+    background: var(--red-main);
+}
+
+/* Dicas gerais */
+.dica-item {
+    padding: 12px;
+    background: rgba(26, 26, 26, 0.6);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--red-main);
+}
+
+.dica-item:last-child {
+    margin-bottom: 0;
+}
+
+.dica-item h4 {
+    color: var(--red-light) !important;
+    font-size: 0.95rem;
+    margin: 0 0 6px 0;
+}
+
+.dica-item p {
+    color: var(--text-light) !important;
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Seções colapsáveis */
+.dicas-collapsible .dicas-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.dicas-collapsible .dicas-section-header h3 {
+    margin: 0;
+}
+
+.collapse-icon {
+    color: var(--red-light);
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.dicas-collapsible.expanded .collapse-icon {
+    transform: rotate(180deg);
+}
+
+.dicas-tricks-list.collapsed {
+    display: none;
+}
+
+.dicas-tricks-list.expanded {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Conteúdo de texto colapsável */
+.dicas-text-content {
+    padding-top: 12px;
+}
+
+.dicas-text-content.collapsed {
+    display: none;
+}
+
+.dicas-text-content.expanded {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Linha em formato de tabela/planilha */
+.linha-table {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    padding: 8px 0;
+    margin-bottom: 16px;
+}
+
+.linha-table-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+    border: 1px solid rgba(204, 0, 0, 0.3);
+    background: rgba(26, 26, 26, 0.8);
+    flex-shrink: 0;
+}
+
+.linha-table-item:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.linha-table-item:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.linha-table-row {
+    padding: 8px 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(204, 0, 0, 0.2);
+}
+
+.linha-table-row:last-child {
+    border-bottom: none;
+}
+
+.linha-table-row.row-numero {
+    background: var(--red-main);
+    color: #ffffff !important;
+    font-family: var(--font-header);
+    font-size: 0.85rem;
+}
+
+.linha-table-row.row-local {
+    background: rgba(156, 39, 176, 0.3);
+    color: #ce93d8 !important;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.linha-table-row.row-manobra {
+    color: #ffffff !important;
+    font-size: 0.85rem;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.linha-table-row.row-manobra .entrada {
+    font-size: 0.7rem;
+    color: #4caf50 !important;
+}
+
+.linha-table-row.row-manobra .trick-principal {
+    font-weight: bold;
+}
+
+.linha-table-row.row-manobra .saida {
+    font-size: 0.7rem;
+    color: #ff9800 !important;
+}
+
+.linha-table-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.linha-table-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
+}
+
+.linha-table-item:hover .row-numero {
+    background: var(--red-light);
+}
+
+/* Seta entre itens da tabela */
+.linha-table-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    color: var(--red-light);
+    font-size: 1.2rem;
+    align-self: center;
+}
+
+.config-subtitle {
+    color: var(--red-light) !important;
+    font-size: 0.85rem;
+    margin: 16px 0 8px 0;
+    font-weight: bold;
+}
+
+.config-subtitle:first-of-type {
+    margin-top: 0;
+}
+
+.btn-reset-metas {
+    width: 100%;
+    padding: 12px;
+    background: rgba(156, 39, 176, 0.2);
+    border: 2px solid #9c27b0;
+    border-radius: 8px;
+    color: #ce93d8 !important;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+}
+
+.btn-reset-metas:hover {
+    background: rgba(156, 39, 176, 0.4);
+}
+
+/* Botão de favorito */
+.btn-favorite {
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 8px;
+    transition: all 0.3s ease;
+    color: var(--text-muted);
+}
+
+.btn-favorite:hover {
+    transform: scale(1.1);
+}
+
+.btn-favorite.favorited {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Indicador de favorito na lista de manobras */
+.trick-card.favorited {
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.trick-card .favorite-star {
+    color: #ffd700;
+    font-size: 0.9rem;
+    margin-left: 8px;
+}
+
+/* Modal de troca de manobra */
+.modal-troca {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+}
+
+.modal-troca-content {
+    background: var(--bg-card);
+    border: 2px solid var(--red-main);
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 320px;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-troca h3 {
+    color: var(--red-light) !important;
+    font-family: var(--font-header);
+    margin: 0 0 8px 0;
+    text-align: center;
+}
+
+.modal-troca-atual {
+    text-align: center;
+    padding: 12px;
+    background: rgba(26, 26, 26, 0.8);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.modal-troca-atual .local {
+    font-size: 0.75rem;
+    color: #ce93d8 !important;
+    text-transform: uppercase;
+}
+
+.modal-troca-atual .manobra {
+    font-size: 1.1rem;
+    color: #ffffff !important;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.modal-troca-opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-troca-opcao {
+    padding: 14px;
+    background: rgba(37, 37, 37, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.btn-troca-opcao:hover {
+    border-color: var(--red-main);
+    background: rgba(204, 0, 0, 0.2);
+}
+
+.btn-troca-opcao.flatground { border-left: 4px solid #4caf50; }
+.btn-troca-opcao.slide { border-left: 4px solid #2196f3; }
+.btn-troca-opcao.grind { border-left: 4px solid #ff9800; }
+.btn-troca-opcao.manual { border-left: 4px solid #9c27b0; }
+
+.btn-troca-cancelar {
+    margin-top: 12px;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: var(--text-muted) !important;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-troca-cancelar:hover {
+    border-color: var(--red-main);
+    color: var(--red-light) !important;
+}
+
+/* Sistema de marcação de texto */
+.tips-content .user-highlight,
+.dicas-text-content .user-highlight,
+#detail-tips .user-highlight {
+    background: rgba(255, 215, 0, 0.35);
+    padding: 2px 4px;
+    border-radius: 3px;
+    cursor: pointer;
+    border-bottom: 2px solid #ffd700;
+    color: inherit;
+}
+
+.tips-content .user-highlight:hover,
+.dicas-text-content .user-highlight:hover,
+#detail-tips .user-highlight:hover {
+    background: rgba(255, 215, 0, 0.5);
+}
+
+/* Estilo alternativo mais colorido para mobile */
+@media (max-width: 768px) {
+    .tips-content .user-highlight,
+    .dicas-text-content .user-highlight,
+    #detail-tips .user-highlight {
+        background: rgba(255, 200, 0, 0.4);
+        border-bottom: 3px solid #ffcc00;
+    }
+}
+
+/* Menu de contexto para destacar */
+.highlight-menu {
+    position: fixed;
+    background: var(--bg-card);
+    border: 2px solid var(--red-main);
+    border-radius: 8px;
+    padding: 8px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.highlight-menu.active {
+    display: flex;
+    gap: 8px;
+}
+
+.highlight-menu button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.highlight-btn-mark {
+    background: #ffd700;
+    color: #000;
+}
+
+.highlight-btn-mark:hover {
+    background: #ffec80;
+}
+
+.highlight-btn-remove {
+    background: #e53935;
+    color: #fff;
+}
+
+.highlight-btn-remove:hover {
+    background: #ff5252;
+}
+
+.highlight-btn-cancel {
+    background: var(--bg-darker);
+    color: var(--text-light);
+    border: 1px solid rgba(255,255,255,0.2) !important;
+}
+
+.highlight-btn-cancel:hover {
+    background: var(--bg-card);
+}
+
+/* Modal de adicionar manobra */
+.modal-add-trick-content {
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-categories-scroll {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 16px;
+}
+
+.modal-category {
+    margin-bottom: 16px;
+}
+
+.modal-category h4 {
+    color: var(--red-light) !important;
+    font-family: var(--font-header);
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+}
+
+.modal-tricks-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.modal-trick-btn {
+    padding: 8px 12px;
+    background: rgba(37, 37, 37, 0.8);
+    border: 1px solid rgba(204, 0, 0, 0.3);
+    border-radius: 6px;
+    color: #ffffff !important;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-trick-btn:hover {
+    background: var(--red-main);
+    border-color: var(--red-main);
+}
+
+/* Marca d'água */
+.watermark {
+    position: fixed;
+    bottom: 8px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* =====================================================
+   CORES EXPLÍCITAS DE TEXTO - Força visibilidade
+   ===================================================== */
+
+/* Reset de cores de texto - força branco em tudo */
+body, p, span, div, h1, h2, h3, h4, h5, h6, label, a, button, input, textarea {
+    color: var(--text-light);
+}
+
+/* Textos específicos que precisam de cor */
+.trick-name {
+    color: var(--red-light) !important;
+}
+
+.trick-difficulty {
+    color: var(--white) !important;
+}
+
+.difficulty-facil {
+    background: var(--green-glow);
+    color: var(--black) !important;
+}
+
+.difficulty-intermediaria {
+    background: var(--orange-glow);
+    color: var(--black) !important;
+}
+
+.difficulty-dificil {
+    background: var(--red-main);
+    color: var(--white) !important;
+}
+
+/* Cards de dificuldade no game menu */
+.diff-name {
+    color: var(--red-light) !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.diff-desc {
+    color: var(--text-muted) !important;
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* Botões de tipo de game */
+.game-type-btn {
+    color: var(--red-light) !important;
+    border: 2px solid var(--red-main);
+    background: transparent;
+}
+
+.game-type-btn.active {
+    background: var(--red-main);
+    color: var(--white) !important;
+}
+
+/* Filtros */
+.filter-btn {
+    color: var(--red-light) !important;
+}
+
+.filter-btn.active {
+    color: var(--white) !important;
+}
+
+/* Botões de progresso */
+.progress-btn {
+    color: var(--red-light) !important;
+    border: 2px solid var(--red-main);
+    background: transparent;
+}
+
+.progress-btn.active {
+    background: var(--green-glow);
+    border-color: var(--green-glow);
+    color: var(--black) !important;
+}
+
+/* Seções de detalhes */
+.detail-section {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.detail-section h3 {
+    color: var(--red-light) !important;
+}
+
+.detail-difficulty span {
+    color: var(--text-light) !important;
+}
+
+/* Game sections */
+.game-section {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.game-section h3 {
+    color: var(--red-light) !important;
+}
+
+/* Scoreboard */
+.scoreboard {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.player-name {
+    color: var(--red-light) !important;
+}
+
+.vs {
+    color: var(--red-light) !important;
+}
+
+/* Manobra atual */
+.current-trick-container {
+    background: var(--bg-card);
+}
+
+.trick-label {
+    color: var(--text-muted) !important;
+}
+
+.current-trick {
+    color: var(--red-light) !important;
+}
+
+/* Speech do oponente */
+.opponent-speech {
+    background: var(--bg-card);
+}
+
+.speech-name {
+    color: var(--red-light) !important;
+}
+
+.speech-text {
+    color: var(--text-light) !important;
+}
+
+/* Histórico */
+.game-history {
+    background: var(--bg-card);
+}
+
+.game-history h4 {
+    color: var(--red-light) !important;
+}
+
+.history-item {
+    color: var(--text-light) !important;
+}
+
+/* Modais */
+.modal-content {
+    background: var(--bg-card);
+    color: var(--text-light) !important;
+}
+
+.modal-content h3 {
+    color: var(--red-light) !important;
+}
+
+.modal-content p {
+    color: var(--text-light) !important;
+}
+
+.modal-content input {
+    background: var(--bg-darker);
+    color: var(--text-light) !important;
+    border: 2px solid rgba(204,0,0,0.3);
+}
+
+.modal-content input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Botões de escolha de manobra */
+.trick-choose-btn {
+    background: var(--bg-card);
+    color: var(--red-light) !important;
+    border: 2px solid rgba(204,0,0,0.3);
+}
+
+.trick-choose-btn:hover {
+    border-color: var(--red-main);
+    background: var(--bg-card-hover);
+}
+
+/* Coin flip */
+.coin-result {
+    color: var(--red-light) !important;
+}
+
+/* Game over */
+.final-score span {
+    color: var(--text-light) !important;
+}
+
+.final-score span:last-child {
+    color: var(--red-light) !important;
+}
+
+/* Links */
+.link-item a {
+    color: var(--red-light) !important;
+}
+
+/* Textos vazios */
+.empty-tips, .empty-videos, .empty-links {
+    color: var(--text-muted) !important;
+}
+
+/* Textos do tips/dicas */
+.tips-content {
+    color: var(--text-light) !important;
+}
+
+
+/* ========================================
+   CITAÇÕES DOS PROFISSIONAIS
+   ======================================== */
+
+.citacao-pro {
+    background: linear-gradient(135deg, rgba(204, 0, 0, 0.15), rgba(204, 0, 0, 0.05));
+    border-left: 4px solid var(--red-main);
+    padding: 15px 15px 15px 20px;
+    border-radius: 0 8px 8px 0;
+}
+
+.citacao-pro h4 {
+    color: var(--red-light) !important;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.citacao-pro .citacao {
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-light) !important;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.citacao-pro .citacao::before {
+    content: """;
+    position: absolute;
+    left: 0;
+    top: -5px;
+    font-size: 2rem;
+    color: var(--red-main);
+    opacity: 0.6;
+    font-family: Georgia, serif;
+}
+
+.citacao-pro .citacao-contexto {
+    font-size: 0.85rem;
+    color: var(--text-muted) !important;
+    margin-top: 8px;
+    padding-left: 20px;
+}
+
+/* Ícones para novas seções */
+.dicas-section-header h3::before {
+    margin-right: 8px;
+}
+
+/* Garante que as telas tenham posição pra animação */
+section.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: none;
+}
+
+section.screen.active {
+    display: block;
+}
+
+/* Container principal precisa de overflow hidden */
+main, body {
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Indicador de swipe na Home (sutil) */
+.swipe-indicator {
+    position: fixed;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 215, 0, 0.3);
+    font-size: 1.5rem;
+    animation: pulseRight 2s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 50;
+}
+
+@keyframes pulseRight {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translateY(-50%) translateX(0);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translateY(-50%) translateX(-5px);
+    }
+}
+
+/* Indicador de swipe para o Game (lado esquerdo) */
+.swipe-indicator-left {
+    position: fixed;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(204, 0, 0, 0.3);
+    font-size: 1.5rem;
+    animation: pulseLeft 2s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 50;
+}
+
+@keyframes pulseLeft {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translateY(-50%) translateX(0);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translateY(-50%) translateX(5px);
+    }
+}
+
+/* Botão de silenciar sons do app - sempre visível */
+.btn-mute-app {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    background: rgba(26, 26, 26, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+}
+
+.btn-mute-app:hover {
+    opacity: 0.8;
+    border-color: var(--red-main);
+}
+
+.btn-mute-app.muted {
+    border-color: var(--red-main);
+    background: rgba(204, 0, 0, 0.3);
+    opacity: 0.6;
+}
+
+
+/* ==================== */
+/* PLAYER DE MÚSICA */
+/* ==================== */
+
+.music-screen {
+    position: relative;
+    overflow: hidden;
+}
+
+.music-wallpaper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/walpaper.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.music-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.music-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.music-header h2 {
+    font-family: var(--font-header);
+    color: #ffd700 !important;
+    font-size: 1.8rem;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* Capa e Info */
+.music-cover-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.music-cover {
+    width: 250px;
+    height: 250px;
+    background: rgba(26, 26, 26, 0.9);
+    border: 3px solid #ffd700;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    overflow: hidden;
+}
+
+.music-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cover-placeholder {
+    font-size: 5rem;
+    opacity: 0.5;
+}
+
+.music-info {
+    text-align: center;
+}
+
+.music-title {
+    font-family: var(--font-header);
+    color: #ffffff !important;
+    font-size: 1.4rem;
+    margin: 0 0 5px 0;
+}
+
+.music-artist {
+    color: #ffd700 !important;
+    font-size: 1rem;
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Barra de Progresso */
+.music-progress-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.music-time {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7) !important;
+    min-width: 40px;
+}
+
+.music-progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.music-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd700, #ffec80);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.music-progress-handle {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    background: #ffd700;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    cursor: grab;
+}
+
+.music-progress-handle:active {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Controles */
+.music-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.music-btn {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-btn-secondary {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+}
+
+.music-btn-main {
+    width: 55px;
+    height: 55px;
+    font-size: 1.5rem;
+}
+
+.music-btn-play {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+    border: none;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.music-btn-play:hover {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+}
+
+.music-btn.active {
+    background: rgba(204, 0, 0, 0.4);
+    border-color: var(--red-main);
+    box-shadow: 0 0 15px rgba(204, 0, 0, 0.5);
+}
+
+.music-btn.active:hover {
+    background: rgba(204, 0, 0, 0.6);
+}
+
+/* Botões de Ação */
+.music-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.music-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
+    color: #ffffff !important;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.music-action-btn:hover {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.action-icon {
+    font-size: 1.3rem;
+}
+
+/* ==================== */
+/* FILA DE REPRODUÇÃO */
+/* ==================== */
+
+.queue-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    max-height: calc(100vh - 150px);
+}
+
+.empty-queue {
+    text-align: center;
+    color: var(--text-muted) !important;
+    padding: 40px;
+}
+
+.queue-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: grab;
+    transition: all 0.3s ease;
+}
+
+.queue-item:active {
+    cursor: grabbing;
+}
+
+.queue-item.playing {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.queue-item.dragging {
+    opacity: 0.5;
+    transform: scale(1.02);
+}
+
+.queue-item-swap-zone {
+    width: 44px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-right: 1px solid rgba(255, 215, 0, 0.2);
+    margin-right: 8px;
+    transition: all 0.3s ease;
+}
+
+.queue-item-swap-zone:hover {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.queue-item-swap-zone:active {
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.swap-icon {
+    font-size: 1.2rem;
+    color: rgba(255, 215, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.queue-item-swap-zone:hover .swap-icon {
+    color: #ffd700;
+}
+
+.queue-item.selected-swap {
+    border: 2px solid #ffd700;
+    background: rgba(255, 215, 0, 0.15);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.queue-item.selected-swap .queue-item-swap-zone {
+    background: rgba(255, 215, 0, 0.3);
+}
+
+.queue-item.selected-swap .swap-icon {
+    color: #ffd700;
+    transform: scale(1.2);
+}
+
+.queue-item-cover {
+    width: 50px;
+    height: 50px;
+    background: rgba(50, 50, 50, 0.8);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.queue-item-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.queue-item-cover span {
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+.queue-item-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.queue-item-title {
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.queue-item-artist {
+    color: rgba(255, 215, 0, 0.7) !important;
+    font-size: 0.8rem;
+}
+
+.queue-item-duration {
+    color: var(--text-muted) !important;
+    font-size: 0.8rem;
+    margin-right: 8px;
+}
+
+.queue-item-remove {
+    background: transparent;
+    border: none;
+    color: #ff6666;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.queue-item-remove:hover {
+    opacity: 1;
+}
+
+.queue-item-drag {
+    color: var(--text-muted);
+    cursor: grab;
+    padding: 5px;
+}
+
+/* ==================== */
+/* MINI PLAYER */
+/* ==================== */
+
+.mini-player {
+    position: fixed;
+    bottom: -100px;
+    left: 10px;
+    right: 10px;
+    height: 70px;
+    background: rgba(26, 26, 26, 0.95);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    z-index: 900;
+    transition: bottom 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mini-player.visible {
+    bottom: 10px;
+}
+
+.mini-player.minimized {
+    bottom: -100px;
+    opacity: 0;
+}
+
+.mini-player-cover {
+    width: 50px;
+    height: 50px;
+    background: rgba(50, 50, 50, 0.8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.mini-player-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mini-player-cover span {
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+.mini-player-info {
+    flex: 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.mini-title {
+    display: block;
+    color: #ffffff !important;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-artist {
+    display: block;
+    color: rgba(255, 215, 0, 0.7) !important;
+    font-size: 0.75rem;
+}
+
+.mini-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.mini-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 8px;
+    transition: transform 0.2s;
+}
+
+.mini-btn:hover {
+    transform: scale(1.1);
+}
+
+.mini-btn-play {
+    font-size: 1.5rem;
+}
+
+/* Animação de swipe */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.3s ease forwards;
+}
+
+.slide-out-left {
+    animation: slideOutLeft 0.3s ease forwards;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.3s ease forwards;
+}
+
+.slide-out-right {
+    animation: slideOutRight 0.3s ease forwards;
+}
+
+/* Botão mostrar mais/menos na fila */
+.queue-toggle-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px dashed rgba(255, 215, 0, 0.4);
+    border-radius: 8px;
+    color: #ffd700 !important;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.queue-toggle-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+}
+
+/* Fila expandida com scroll */
+.queue-list.queue-expanded {
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    padding-bottom: 20px;
+}

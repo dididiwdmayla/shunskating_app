@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShunsKating - Diário de Manobras</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#cc0000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ShunsKating">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+</head>
+<body>
+
+    <!-- Tela: Animação Inicial -->
+    <section id="intro">
+    </section>
+
+    <!-- Tela: Menu Principal -->
+    <section id="home">
+        <div class="logo-container">
+            <img src="./assets/images/logoshun.png" alt="ShunsKating" class="logo-image">
+        </div>
+        
+        <button class="shape-btn" data-category="flatground">FLATGROUND</button>
+        <button class="shape-btn" data-category="slides">SLIDES</button>
+        <button class="shape-btn" data-category="grinds">GRINDS</button>
+        <button class="shape-btn btn-metas" id="btn-metas">METAS</button>
+        <button class="shape-btn btn-dicas" id="btn-dicas">DICAS</button>
+
+        <!-- Indicador de swipe para o player -->
+        <div class="swipe-indicator">🎵</div>
+        
+        <!-- Indicador de swipe para o Game -->
+        <div class="swipe-indicator-left">🛹</div>
+    </section>
+
+    <!-- Tela do Player de Música -->
+    <section id="music-player" class="screen music-screen">
+        <div class="music-wallpaper"></div>
+        <div class="music-content">
+            <header class="music-header">
+                <h2>🎵 PLAYER</h2>
+            </header>
+            
+            <!-- Área da capa e info -->
+            <div class="music-cover-area">
+                <div class="music-cover" id="music-cover">
+                    <span class="cover-placeholder">🎵</span>
+                </div>
+                <div class="music-info">
+                    <h3 class="music-title" id="music-title">Nenhuma música</h3>
+                    <p class="music-artist" id="music-artist">Adicione músicas para começar</p>
+                </div>
+            </div>
+            
+            <!-- Barra de progresso -->
+            <div class="music-progress-container">
+                <span class="music-time" id="music-current">0:00</span>
+                <div class="music-progress-bar" id="music-progress-bar">
+                    <div class="music-progress" id="music-progress"></div>
+                    <div class="music-progress-handle" id="music-progress-handle"></div>
+                </div>
+                <span class="music-time" id="music-duration">0:00</span>
+            </div>
+            
+            <!-- Controles principais -->
+            <div class="music-controls">
+                <button class="music-btn music-btn-secondary" id="btn-shuffle" title="Aleatório">🔀</button>
+                <button class="music-btn music-btn-main" id="btn-prev" title="Anterior">⏮️</button>
+                <button class="music-btn music-btn-play" id="btn-play" title="Play">▶️</button>
+                <button class="music-btn music-btn-main" id="btn-next" title="Próxima">⏭️</button>
+                <button class="music-btn music-btn-secondary" id="btn-repeat" title="Repetir">🔁</button>
+            </div>
+            
+            <!-- Botões de ação -->
+            <div class="music-actions">
+                <button class="music-action-btn" id="btn-add-music">
+                    <span class="action-icon">➕</span>
+                    <span>Adicionar Música</span>
+                </button>
+                <button class="music-action-btn" id="btn-queue">
+                    <span class="action-icon">📋</span>
+                    <span>Fila de Reprodução</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Input oculto para selecionar arquivos -->
+        <input type="file" id="music-file-input" accept="audio/*" multiple style="display: none;">
+    </section>
+
+    <!-- Tela da Fila de Reprodução -->
+    <section id="music-queue" class="screen music-screen">
+        <div class="music-wallpaper"></div>
+        <div class="music-content">
+            <header class="music-header">
+                <button class="btn-back" id="btn-back-queue">← Voltar</button>
+                <h2>📋 FILA</h2>
+            </header>
+            
+            <div class="queue-list" id="queue-list">
+                <p class="empty-queue">Nenhuma música na fila</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mini Player -->
+    <div class="mini-player" id="mini-player">
+        <div class="mini-player-cover" id="mini-cover">
+            <span>🎵</span>
+        </div>
+        <div class="mini-player-info">
+            <span class="mini-title" id="mini-title">Nenhuma música</span>
+            <span class="mini-artist" id="mini-artist"></span>
+        </div>
+        <div class="mini-player-controls">
+            <button class="mini-btn" id="mini-prev">⏮️</button>
+            <button class="mini-btn mini-btn-play" id="mini-play">▶️</button>
+            <button class="mini-btn" id="mini-next">⏭️</button>
+        </div>
+    </div>
+
+    <!-- Botão de silenciar sons do app - sempre visível -->
+    <button class="btn-mute-app" id="btn-mute-app" title="Silenciar sons do app">🔊</button>
+
+    <!-- Tela: Lista de Manobras -->
+    <section id="trick-list">
+        <div class="trick-list-header">
+            <button class="btn-back">← Voltar</button>
+            <h2 id="category-title"></h2>
+        </div>
+        
+        <div class="filters-container">
+            <button class="filter-btn active" data-filter="todas">Todas</button>
+            <button class="filter-btn" data-filter="facil">Fácil</button>
+            <button class="filter-btn" data-filter="intermediaria">Média</button>
+            <button class="filter-btn" data-filter="dificil">Difícil</button>
+        </div>
+        
+        <div id="tricks-container"></div>
+    </section>
+
+    <!-- Tela: Detalhes da Manobra -->
+    <section id="trick-detail">
+        <div class="detail-header">
+            <button class="btn-back" id="btn-back-detail">← Voltar</button>
+            <h2 id="detail-title"></h2>
+            <button class="btn-favorite" id="btn-favorite" title="Favoritar">☆</button>
+        </div>
+        <div class="stance-switcher">
+            <button class="btn-change-stance" id="btn-change-stance">Mudar base ▼</button>
+            <div class="stance-options" id="stance-options" style="display: none;">
+                <button class="stance-option active" data-stance="regular">Regular</button>
+                <button class="stance-option" data-stance="fakie">Fakie</button>
+                <button class="stance-option" data-stance="nollie">Nollie</button>
+                <button class="stance-option" data-stance="switch">Switch</button>
+            </div>
+        </div>
+        <div class="current-stance-label" id="current-stance-label">Base: Regular</div>
+
+        <div class="detail-content">
+            <div class="detail-difficulty">
+                <span>Dificuldade:</span>
+                <span id="detail-difficulty-badge" class="trick-difficulty"></span>
+            </div>
+            
+            <div class="detail-section">
+                <h3>📝 Dicas</h3>
+                <div id="detail-tips" class="tips-content">
+                    <p class="empty-tips">Nenhuma dica adicionada ainda.</p>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h3>✏️ Minhas Anotações</h3>
+                <textarea id="personal-notes" class="personal-notes-input" placeholder="Anote aqui dicas que funcionam pra você... Ex: 'Deixar o pé na ponta ajuda no flip'"></textarea>
+                <button class="btn-primary btn-save-notes" id="btn-save-notes">SALVAR ANOTAÇÕES</button>
+            </div>
+            
+            <div class="detail-section">
+                <h3>📊 Meu Progresso</h3>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-segment" data-progress="0"></div>
+                        <div class="progress-segment" data-progress="1"></div>
+                        <div class="progress-segment" data-progress="2"></div>
+                        <div class="progress-segment" data-progress="3"></div>
+                        <div class="progress-segment" data-progress="4"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>Não sei</span>
+                        <span>Aprendendo</span>
+                        <span>Às vezes</span>
+                        <span>Pegando</span>
+                        <span>Na base</span>
+                    </div>
+                    <div class="progress-current" id="progress-current-text">Não sei</div>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h3>🎥 Meus Vídeos</h3>
+                <div id="videos-container" class="videos-grid">
+                    <p class="empty-videos">Nenhum vídeo gravado ainda.</p>
+                </div>
+                <button class="btn-primary" id="btn-record-video">Gravar Vídeo</button>
+            </div>
+            
+            <div class="detail-section">
+                <h3>🔗 Links Externos</h3>
+                <div id="links-container">
+                    <p class="empty-links">Nenhum link adicionado.</p>
+                </div>
+                <button class="btn-secondary" id="btn-add-link">Adicionar Link</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tela: Menu do Game of Skate -->
+    <section id="game-menu">
+        <div class="game-menu-header">
+            <button class="btn-back" id="btn-back-game-menu">← Voltar</button>
+            <h2>GAME OF S.K.A.T.E.</h2>
+        </div>
+
+        <div class="game-menu-content">
+            <div class="game-section">
+                <h3>Escolha a dificuldade</h3>
+                <div class="difficulty-list">
+                    <button class="difficulty-btn" data-level="iniciante">
+                        <span class="diff-name">Iniciante</span>
+                        <span class="diff-desc">Nathan, Pajé, Alisson Gordola</span>
+                    </button>
+                    <button class="difficulty-btn" data-level="intermediario">
+                        <span class="diff-name">Intermediário</span>
+                        <span class="diff-desc">Lucas, Kaique, Dudu</span>
+                    </button>
+                    <button class="difficulty-btn" data-level="intermediario_plus">
+                        <span class="diff-name">Intermediário+</span>
+                        <span class="diff-desc">Messi, Marquinhos, Léo</span>
+                    </button>
+                    <button class="difficulty-btn" data-level="avancado">
+                        <span class="diff-name">Avançado</span>
+                        <span class="diff-desc">Marcelo Street, Kelvin, Biel</span>
+                    </button>
+                    <button class="difficulty-btn" data-level="profissional">
+                        <span class="diff-name">Profissional</span>
+                        <span class="diff-desc">Luan Oliveira, Gui Damasceno, Tiago Lemos</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="game-section">
+                <h3>Tipo de Game</h3>
+                <div class="game-type-list">
+                    <button class="game-type-btn active" data-type="livre">Game Livre</button>
+                    <button class="game-type-btn" data-type="flatground">Só Flatground</button>
+                    <button class="game-type-btn" data-type="slides">Só Slides</button>
+                    <button class="game-type-btn" data-type="grinds">Só Grinds</button>
+                </div>
+            </div>
+            
+            <button class="btn-primary btn-start-game" id="btn-start-game" disabled>COMEÇAR GAME</button>
+        </div>
+    </section>
+
+    <!-- Tela: Jogo -->
+    <section id="game-play">
+        <div class="game-header">
+            <button class="btn-back" id="btn-quit-game">← Sair</button>
+            <h2>GAME OF S.K.A.T.E.</h2>
+        </div>
+
+        <div class="game-content">
+            <div class="scoreboard">
+                <div class="player-score">
+                    <span class="player-name">VOCÊ</span>
+                    <div class="letters" id="player-letters">
+                        <span class="letter empty">S</span>
+                        <span class="letter empty">K</span>
+                        <span class="letter empty">A</span>
+                        <span class="letter empty">T</span>
+                        <span class="letter empty">E</span>
+                    </div>
+                </div>
+                <span class="vs">VS</span>
+                <div class="player-score">
+                    <span class="player-name" id="opponent-name-display">ADVERSÁRIO</span>
+                    <div class="letters" id="opponent-letters">
+                        <span class="letter empty">S</span>
+                        <span class="letter empty">K</span>
+                        <span class="letter empty">A</span>
+                        <span class="letter empty">T</span>
+                        <span class="letter empty">E</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="current-trick-container">
+                <span class="trick-label" id="trick-label">Manobra:</span>
+                <div class="current-trick" id="current-trick">-</div>
+                <button class="btn-tips" id="btn-game-tips">VER DICAS</button>
+            </div>
+            
+            <div class="game-actions">
+                <button class="btn-success btn-game-action" id="btn-landed">MANDEI</button>
+                <button class="btn-primary btn-game-action" id="btn-missed">ERREI</button>
+            </div>
+            
+            <div class="opponent-speech">
+                <span class="speech-name" id="speech-name">Adversário:</span>
+                <p class="speech-text" id="speech-text">"Vamos começar!"</p>
+            </div>
+            
+            <div class="game-history">
+                <h4>Histórico</h4>
+                <div id="history-container"></div>
+            </div>
+        </div>
+
+        <div id="modal-coin" class="modal">
+            <div class="modal-content modal-coin-content">
+                <h3>Cara ou Coroa?</h3>
+                <p>Escolha para ver quem começa:</p>
+                <div class="coin-buttons">
+                    <button class="btn-primary" id="btn-cara">CARA</button>
+                    <button class="btn-secondary" id="btn-coroa">COROA</button>
+                </div>
+                <div class="coin-result" id="coin-result"></div>
+            </div>
+        </div>
+
+        <div id="modal-choose-trick" class="modal">
+            <div class="modal-content">
+                <h3>Escolha sua manobra</h3>
+                <div id="stance-selection" class="stance-selection" style="display: none;">
+                    <h3>Escolha a base:</h3>
+                    <div class="stance-buttons">
+                        <button class="stance-btn" data-stance="regular">Regular</button>
+                        <button class="stance-btn" data-stance="fakie">Fakie</button>
+                        <button class="stance-btn" data-stance="nollie">Nollie</button>
+                        <button class="stance-btn" data-stance="switch">Switch</button>
+                    </div>
+                </div>
+                <div id="trick-selection" class="trick-selection" style="display: none;">
+                    <div class="trick-selection-header">
+                        <button class="btn-back-stance" id="btn-back-stance">← Mudar base</button>
+                        <h3>Escolha a manobra:</h3>
+                    </div>
+                    <div id="trick-pool" class="trick-pool">
+                        <!-- Manobras serão renderizadas aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-game-over" class="modal">
+            <div class="modal-content modal-game-over-content">
+                <h2 id="game-over-title">VOCÊ GANHOU!</h2>
+                <div class="final-score">
+                    <div>
+                        <span>VOCÊ</span>
+                        <span id="final-player-letters">S-K-A</span>
+                    </div>
+                    <div>
+                        <span id="final-opponent-name">Adversário</span>
+                        <span id="final-opponent-letters">S-K-A-T-E</span>
+                    </div>
+                </div>
+                <div class="game-over-buttons">
+                    <button class="btn-primary" id="btn-play-again">JOGAR NOVAMENTE</button>
+                    <button class="btn-secondary" id="btn-change-opponent">TROCAR DIFICULDADE</button>
+                    <button class="btn-secondary" id="btn-back-menu">VOLTAR AO MENU</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tela de Metas -->
+    <section id="metas">
+        <header class="metas-header">
+            <button class="btn-back" id="btn-back-metas">← Voltar</button>
+            <h2>METAS</h2>
+        </header>
+        <div class="metas-content">
+            <!-- Meta Diária -->
+            <div class="meta-section">
+                <h3>📅 Meta Diária</h3>
+                <p class="meta-desc">Acerte 1 manobra de cada categoria hoje</p>
+                <div class="meta-items" id="meta-diaria-items">
+                    <!-- Preenchido pelo JS -->
+                </div>
+            </div>
+            
+            <!-- Meta Semanal -->
+            <div class="meta-section">
+                <h3>📆 Meta Semanal</h3>
+                <div class="meta-tabs">
+                    <button class="meta-tab active" data-tab="semanal-auto">Automática</button>
+                    <button class="meta-tab" data-tab="semanal-custom">Personalizada</button>
+                </div>
+                
+                <div class="meta-tab-content" id="semanal-auto">
+                    <p class="meta-desc">Linha sorteada (3-4 manobras)</p>
+                    <div class="meta-linha" id="meta-semanal-linha"></div>
+                    <div class="meta-actions">
+                        <button class="btn-meta-concluir" id="btn-semanal-concluir">COMPLETEI A LINHA!</button>
+                    </div>
+                </div>
+                
+                <div class="meta-tab-content hidden" id="semanal-custom">
+                    <p class="meta-desc">Monte sua própria linha (3-4 manobras)</p>
+                    <div class="meta-linha" id="meta-semanal-custom-linha"></div>
+                    <button class="btn-add-trick" id="btn-add-semanal">+ Adicionar manobra</button>
+                    <div class="meta-actions">
+                        <button class="btn-meta-concluir" id="btn-semanal-custom-concluir">COMPLETEI A LINHA!</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Meta Mensal -->
+            <div class="meta-section">
+                <h3>🗓️ Meta Mensal</h3>
+                <div class="meta-tabs">
+                    <button class="meta-tab active" data-tab="mensal-auto">Automática</button>
+                    <button class="meta-tab" data-tab="mensal-custom">Personalizada</button>
+                </div>
+                
+                <div class="meta-tab-content" id="mensal-auto">
+                    <p class="meta-desc">Linha completa (5-7 manobras)</p>
+                    <div class="meta-linha" id="meta-mensal-linha"></div>
+                    <div class="meta-actions">
+                        <button class="btn-meta-concluir" id="btn-mensal-concluir">COMPLETEI A LINHA!</button>
+                    </div>
+                </div>
+                
+                <div class="meta-tab-content hidden" id="mensal-custom">
+                    <p class="meta-desc">Monte sua própria linha (5-7 manobras)</p>
+                    <div class="meta-linha" id="meta-mensal-custom-linha"></div>
+                    <button class="btn-add-trick" id="btn-add-mensal">+ Adicionar manobra</button>
+                    <div class="meta-actions">
+                        <button class="btn-meta-concluir" id="btn-mensal-custom-concluir">COMPLETEI A LINHA!</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Configurações -->
+            <div class="meta-section meta-config">
+                <h3>⚙️ Configurações</h3>
+                
+                <p class="config-subtitle">Opções das linhas:</p>
+                <label class="config-toggle">
+                    <input type="checkbox" id="config-flip-inout">
+                    <span class="toggle-label">Incluir flip in/out nas linhas</span>
+                </label>
+                <label class="config-toggle">
+                    <input type="checkbox" id="config-manuais" checked>
+                    <span class="toggle-label">Incluir manuais nas linhas</span>
+                </label>
+                
+                <p class="config-subtitle">Obstáculos da pista:</p>
+                <div id="obstaculos-config-list">
+                    <!-- Preenchido pelo JS -->
+                </div>
+                
+                <p class="config-subtitle">Resetar:</p>
+                <button class="btn-reset-metas" id="btn-reset-metas">🔄 Gerar novas linhas</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tela de Dicas -->
+    <section id="dicas">
+        <header class="dicas-header">
+            <button class="btn-back" id="btn-back-dicas">← Voltar</button>
+            <h2>DICAS</h2>
+        </header>
+        <div class="dicas-content">
+            
+            <!-- Seção de Manuais -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="manuais-header">
+                    <h3>🛹 Manuais</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <p class="dicas-section-desc">Técnicas de equilíbrio no tail e nose</p>
+                <div class="dicas-tricks-list collapsed" id="manuais-list"></div>
+            </div>
+            
+            <!-- Seção de Late Tricks -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="late-header">
+                    <h3>⏰ Late Tricks</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <p class="dicas-section-desc">Manobras executadas no último momento</p>
+                <div class="dicas-tricks-list collapsed" id="late-list"></div>
+            </div>
+            
+            <!-- Seção de Flip In/Out -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="flipinout-header">
+                    <h3>🔄 Flip In / Flip Out</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <p class="dicas-section-desc">Entrando e saindo de obstáculos com flip</p>
+                <div class="dicas-tricks-list collapsed" id="flipinout-list"></div>
+            </div>
+            
+            <!-- Melhorando Switch/Nollie -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="switch-header">
+                    <h3>🔀 Melhorando Switch/Nollie</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="switch-content">
+                    <p>""</p>
+                </div>
+            </div>
+            
+            <!-- Manobras com Giro do Corpo -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="giro-header">
+                    <h3>🌀 Manobras com Giro do Corpo</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="giro-content">
+                    <p>salve plaza. salve luquinhas, salve alisson medroso. assasinem gapss</p>
+                </div>
+            </div>
+            
+            <!-- Criando a Vela Perfeita -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="vela-header">
+                    <h3>🕯️ Criando a Vela Perfeita</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="vela-content">
+                    <p>""</p>
+                </div>
+            </div>
+            
+            <!-- Filmando Manobras -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="filmagem-header">
+                    <h3>🎬 Filmando do Jeito Certo</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="filmagem-content">
+                    <p>""</p>
+                </div>
+            </div>
+            
+            <!-- Superando o Medo -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="medo-header">
+                    <h3>💪 Superando o Medo</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="medo-content">
+                    <p>""</p>
+                </div>
+            </div>
+            
+            <!-- Sessão Produtiva -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="sessao-header">
+                    <h3>📈 Sessão Produtiva</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="sessao-content">
+                    <p>""</p>
+                </div>
+            </div>
+            
+            <!-- Biomecânica Universal -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="biomecanica-header">
+                    <h3>⚙️ Biomecânica Universal</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="biomecanica-content">
+                    <p>Guia definitivo de técnicas de skate: biomecânica, aterrissagem e mentalidade
+
+Dominar o skateboard exige compreensão de **três pilares fundamentais**: os princípios biomecânicos que se aplicam a múltiplas manobras, as técnicas específicas para aterrissar gaps com segurança, e a preparação mental que separa skatistas medianos dos excepcionais. Os ombros lideram todas as rotações, o comprometimento total causa menos lesões que a hesitação, e 90% dos skatistas profissionais utilizam visualização mental. Este guia consolida sabedoria técnica de profissionais como Jaws, Luan Oliveira, Nyjah Huston e Jamie Foy com princípios científicos de biomecânica e psicologia esportiva.
+
+---
+
+## SEÇÃO 1: PRINCÍPIOS UNIVERSAIS PARA SKATEBOARD
+
+### Os ombros controlam tudo no flatground
+
+A regra mais importante do skate flatground é saber **quando manter os ombros paralelos à shape e quando rotacioná-los**. Para manobras sem rotação corporal—kickflip, heelflip, pop shove-it, 360 flip—os ombros devem permanecer estritamente paralelos ao shape do início ao fim. Qualquer abertura dos ombros faz a shape voar para longe e impede o pouso com os dois pés.
+
+Para 360 flips especificamente, a Tactics adverte: "Se você abrir os ombros e virar o torso para frente após o scoop, será muito difícil se comprometer a pousar na shape." O erro mais comum em kickflips é exatamente esse: rotação involuntária dos ombros que faz o skatista pousar com apenas um pé.
+
+**Para manobras com rotação (180s, big spins)**, a dinâmica inverte-se completamente. Os ombros não apenas podem, mas **devem liderar** o movimento. A técnica correta envolve três fases: primeiro, uma leve rotação na direção oposta (wind-up) para criar momentum; segundo, a rotação dos ombros iniciando *antes* do pop; terceiro, o corpo seguindo naturalmente a direção ditada pelos ombros.
+
+A Braille Skateboarding ensina para o backside 180: "Uma fração de segundo antes do tail bater no chão, vire cabeça e ombros backside. No pico do ollie, cabeça e ombros devem estar virados pelo menos 90 graus."
+
+### Cabeça e olhar determinam a trajetória
+
+O princípio "olhe para onde você quer ir" aplica-se universalmente. Para rotações, o olhar acompanha a direção do giro. Para frontside 180, os olhos guiam o corpo na rotação frontal. Para backside 180, a nuca acaba apontando para frente no meio da manobra.
+
+Em grinds e slides, a regra muda: **fixe o olhar no final do obstáculo**, não nos pés ou no ponto de contato. Isso mantém estabilidade e ajuda a projetar a saída correta.
+
+### Centro de gravidade e a lei dos 95%
+
+A SkatersCafe formula a regra definitiva: "Sempre mantenha seu peso centrado sobre a shape. Isso se aplica a tudo—downhill, bowl, street. 95% do tempo, você quer o peso centralizado."
+
+Os 5% restantes correspondem a situações específicas: noseslides exigem **dois terços do peso na frente**, tailslides pedem peso concentrado no tail, e 5-0 grinds requerem peso predominante no truck traseiro. Fora essas exceções, desviar do centro é receita para quedas.
+
+A pré-carga para manobras mais técnicas segue padrões específicos. Para 360 flips, concentre peso no pé traseiro antes do pop para maximizar potência. O momento de transferência—quando esse peso redistribui—sincroniza com o início do scoop.
+
+### Joelhos no peito fazem toda diferença
+
+"Os melhores skatistas do mundo às vezes acertam o próprio rosto com os joelhos durante ollies altos," observa o GoSkate. "Sempre suba os joelhos o máximo possível para produzir o ollie mais alto."
+
+Recolher as pernas cumpre múltiplas funções: cria mais tempo de voo para a shape completar rotações ou flips, mantém a shape próxima ao corpo durante o truque, e permite ajustes de última hora antes do pouso. Para heelflips em particular, subir o pé traseiro alto o suficiente é o que permite que a shape complete a rotação antes de você precisar pegá-la.
+
+### Flick de kickflip versus heelflip
+
+**Kickflip**: O flick vai para **cima e para fora**, saindo do bolso frontal do nose (lado do heel). O peito fica aberto, apontando para o nose. Pé frontal em 45 graus, dedos mirando o canto toe-side. O erro fatal é flicar para baixo—isso empurra a shape para longe.
+
+**Heelflip**: O movimento é **para frente e levemente para fora**, usando o calcanhar. Os dedos ficam pendurados para fora do lado toe-side da shape. A postura deve ser ereta, não curvada. Curvar-se causa salto para frente ao invés de para cima.
+
+### Scoop: backside versus frontside
+
+No **backside pop shove-it**, os dedos do pé traseiro pendem do lado heel do tail. O movimento é pop + scoop **para trás** (em direção aos calcanhares). O tail raspa para trás enquanto a shape gira.
+
+No **frontside pop shove-it**, o pé traseiro fica mais para o lado toe, levemente mais baixo no tail. A diferença crucial: você não scoopa—você faz um **pop reto para baixo + empurrão para frente**. É mais difícil porque a shape gira atrás de você, fora do campo de visão.
+
+Para 360 flips, o scoop é descrito como "o movimento de curvar o tornozelo traseiro para dentro enquanto força e gira o tail"—a parte mais crítica do tre flip. A direção é "principalmente para baixo e para trás em direção ao calcanhar, mas também levemente para frente em direção ao nose para a shape acompanhar o corpo."
+
+---
+
+## Grinds exigem compromisso total e olhar fixo no final
+
+A aproximação ideal para um 50-50 é em ângulo de **15-30 graus**, com velocidade moderada e pés na largura dos ombros. Velocidade baixa demais significa não conseguir travar os trucks; rápida demais aumenta chances de queda.
+
+A distribuição de peso durante o grind é contra-intuitiva: "Mantenha o peso balanceado, não incline para trás! Se tiver dificuldade, concentre *mais* peso no pé da frente," aconselha o LiveAbout. Para 5-0s, o peso vai majoritariamente no truck traseiro—tecnicamente similar a um manual, mas com inclinação mais acentuada. Para feebles, o peso fica centrado no truck traseiro durante todo o grind.
+
+O olhar deve fixar-se no **final do obstáculo**, nunca nos pés. Isso mantém estabilidade e prepara a saída. Os ombros devem permanecer alinhados com a shape e paralelos ao obstáculo.
+
+A velocidade de aproximação segue uma regra simples: muito devagar é mais perigoso que rápido demais. Velocidade insuficiente significa não conseguir travar propriamente ou escorregar antes de completar o grind. Obstáculos encerados exigem menos velocidade que superfícies secas.
+
+---
+
+## Slides variam drasticamente na distribuição de peso
+
+**Boardslide**: Peso centrado no meio da shape, ombros paralelos ao obstáculo, leve inclinação para os calcanhares. A shape fica perpendicular (90°) ao obstáculo.
+
+**Noseslide**: O Rad Rat Video esclarece um erro comum: "Não é 100% do peso na frente. É mais como dois terços. Melhor estar pesado demais no tail do que no nose"—peso excessivo no nose faz você travar e cair para frente violentamente.
+
+**Tailslide**: Peso sobre o tail, com a shape rotacionada alguns graus **além** dos 90° para evitar que as rodas travem. A superfície de contato é menor que no noseslide (o tail é mais curto), exigindo mais precisão.
+
+A diferença entre "atravessar" e "subir" no obstáculo é técnica: boardslides envolvem um ollie com rotação de 90° onde os trucks da frente passam por cima do obstáculo primeiro; noseslides e tailslides exigem um meio-180 para "subir" na beirada com a parte específica da shape.
+
+Para sair, as opções incluem: roll off padrão (transferir peso levemente para trás e deixar o momentum levar), pop out (dar um pequeno pop do nose para estilo), ou revert (continuar a rotação para completar 180° e sair de fakie).</p>
+                </div>
+            </div>
+            
+            <!-- Enfrentando Gaps -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="gaps-header">
+                    <h3>🚀 Enfrentando Gaps</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="gaps-content">
+                    <p>Guia definitivo de técnicas de skate: biomecânica, aterrissagem e mentalidade
+
+Dominar o skateboard exige compreensão de **três pilares fundamentais**: os princípios biomecânicos que se aplicam a múltiplas manobras, as técnicas específicas para aterrissar gaps com segurança, e a preparação mental que separa skatistas medianos dos excepcionais. Os ombros lideram todas as rotações, o comprometimento total causa menos lesões que a hesitação, e 90% dos skatistas profissionais utilizam visualização mental. Este guia consolida sabedoria técnica de profissionais como Jaws, Luan Oliveira, Nyjah Huston e Jamie Foy com princípios científicos de biomecânica e psicologia esportiva. 
+SEÇÃO 1: PRINCÍPIOS UNIVERSAIS PARA SKATEBOARD
+
+### Os ombros controlam tudo no flatground
+
+A regra mais importante do skate flatground é saber **quando manter os ombros paralelos à shape e quando rotacioná-los**. Para manobras sem rotação corporal—kickflip, heelflip, pop shove-it, 360 flip—os ombros devem permanecer estritamente paralelos ao shape do início ao fim. Qualquer abertura dos ombros faz a shape voar para longe e impede o pouso com os dois pés.
+
+Para 360 flips especificamente, a Tactics adverte: "Se você abrir os ombros e virar o torso para frente após o scoop, será muito difícil se comprometer a pousar na shape." O erro mais comum em kickflips é exatamente esse: rotação involuntária dos ombros que faz o skatista pousar com apenas um pé.
+
+**Para manobras com rotação (180s, big spins)**, a dinâmica inverte-se completamente. Os ombros não apenas podem, mas **devem liderar** o movimento. A técnica correta envolve três fases: primeiro, uma leve rotação na direção oposta (wind-up) para criar momentum; segundo, a rotação dos ombros iniciando *antes* do pop; terceiro, o corpo seguindo naturalmente a direção ditada pelos ombros.
+
+A Braille Skateboarding ensina para o backside 180: "Uma fração de segundo antes do tail bater no chão, vire cabeça e ombros backside. No pico do ollie, cabeça e ombros devem estar virados pelo menos 90 graus."
+
+### Cabeça e olhar determinam a trajetória
+
+O princípio "olhe para onde você quer ir" aplica-se universalmente. Para rotações, o olhar acompanha a direção do giro. Para frontside 180, os olhos guiam o corpo na rotação frontal. Para backside 180, a nuca acaba apontando para frente no meio da manobra.
+
+Em grinds e slides, a regra muda: **fixe o olhar no final do obstáculo**, não nos pés ou no ponto de contato. Isso mantém estabilidade e ajuda a projetar a saída correta.
+
+### Centro de gravidade e a lei dos 95%
+
+A SkatersCafe formula a regra definitiva: "Sempre mantenha seu peso centrado sobre a shape. Isso se aplica a tudo—downhill, bowl, street. 95% do tempo, você quer o peso centralizado."
+
+Os 5% restantes correspondem a situações específicas: noseslides exigem **dois terços do peso na frente**, tailslides pedem peso concentrado no tail, e 5-0 grinds requerem peso predominante no truck traseiro. Fora essas exceções, desviar do centro é receita para quedas.
+
+A pré-carga para manobras mais técnicas segue padrões específicos. Para 360 flips, concentre peso no pé traseiro antes do pop para maximizar potência. O momento de transferência—quando esse peso redistribui—sincroniza com o início do scoop.
+
+### Joelhos no peito fazem toda diferença
+
+"Os melhores skatistas do mundo às vezes acertam o próprio rosto com os joelhos durante ollies altos," observa o GoSkate. "Sempre suba os joelhos o máximo possível para produzir o ollie mais alto."
+
+Recolher as pernas cumpre múltiplas funções: cria mais tempo de voo para a shape completar rotações ou flips, mantém a shape próxima ao corpo durante o truque, e permite ajustes de última hora antes do pouso. Para heelflips em particular, subir o pé traseiro alto o suficiente é o que permite que a shape complete a rotação antes de você precisar pegá-la.
+
+### Flick de kickflip versus heelflip
+
+**Kickflip**: O flick vai para **cima e para fora**, saindo do bolso frontal do nose (lado do heel). O peito fica aberto, apontando para o nose. Pé frontal em 45 graus, dedos mirando o canto toe-side. O erro fatal é flicar para baixo—isso empurra a shape para longe.
+
+**Heelflip**: O movimento é **para frente e levemente para fora**, usando o calcanhar. Os dedos ficam pendurados para fora do lado toe-side da shape. A postura deve ser ereta, não curvada. Curvar-se causa salto para frente ao invés de para cima.
+
+### Scoop: backside versus frontside
+
+No **backside pop shove-it**, os dedos do pé traseiro pendem do lado heel do tail. O movimento é pop + scoop **para trás** (em direção aos calcanhares). O tail raspa para trás enquanto a shape gira.
+
+No **frontside pop shove-it**, o pé traseiro fica mais para o lado toe, levemente mais baixo no tail. A diferença crucial: você não scoopa—você faz um **pop reto para baixo + empurrão para frente**. É mais difícil porque a shape gira atrás de você, fora do campo de visão.
+
+Para 360 flips, o scoop é descrito como "o movimento de curvar o tornozelo traseiro para dentro enquanto força e gira o tail"—a parte mais crítica do tre flip. A direção é "principalmente para baixo e para trás em direção ao calcanhar, mas também levemente para frente em direção ao nose para a shape acompanhar o corpo."
+
+---
+
+## Grinds exigem compromisso total e olhar fixo no final
+
+A aproximação ideal para um 50-50 é em ângulo de **15-30 graus**, com velocidade moderada e pés na largura dos ombros. Velocidade baixa demais significa não conseguir travar os trucks; rápida demais aumenta chances de queda.
+
+A distribuição de peso durante o grind é contra-intuitiva: "Mantenha o peso balanceado, não incline para trás! Se tiver dificuldade, concentre *mais* peso no pé da frente," aconselha o LiveAbout. Para 5-0s, o peso vai majoritariamente no truck traseiro—tecnicamente similar a um manual, mas com inclinação mais acentuada. Para feebles, o peso fica centrado no truck traseiro durante todo o grind.
+
+O olhar deve fixar-se no **final do obstáculo**, nunca nos pés. Isso mantém estabilidade e prepara a saída. Os ombros devem permanecer alinhados com a shape e paralelos ao obstáculo.
+
+A velocidade de aproximação segue uma regra simples: muito devagar é mais perigoso que rápido demais. Velocidade insuficiente significa não conseguir travar propriamente ou escorregar antes de completar o grind. Obstáculos encerados exigem menos velocidade que superfícies secas.
+
+---
+
+## Slides variam drasticamente na distribuição de peso
+
+**Boardslide**: Peso centrado no meio da shape, ombros paralelos ao obstáculo, leve inclinação para os calcanhares. A shape fica perpendicular (90°) ao obstáculo.
+
+**Noseslide**: O Rad Rat Video esclarece um erro comum: "Não é 100% do peso na frente. É mais como dois terços. Melhor estar pesado demais no tail do que no nose"—peso excessivo no nose faz você travar e cair para frente violentamente.
+
+**Tailslide**: Peso sobre o tail, com a shape rotacionada alguns graus **além** dos 90° para evitar que as rodas travem. A superfície de contato é menor que no noseslide (o tail é mais curto), exigindo mais precisão.
+
+A diferença entre "atravessar" e "subir" no obstáculo é técnica: boardslides envolvem um ollie com rotação de 90° onde os trucks da frente passam por cima do obstáculo primeiro; noseslides e tailslides exigem um meio-180 para "subir" na beirada com a parte específica da shape.
+
+Para sair, as opções incluem: roll off padrão (transferir peso levemente para trás e deixar o momentum levar), pop out (dar um pequeno pop do nose para estilo), ou revert (continuar a rotação para completar 180° e sair de fakie).</p>
+                </div>
+            </div>
+            
+            <!-- Psicologia do Skate -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="psicologia-header">
+                    <h3>🧠 Psicologia do Skate</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="psicologia-content">
+                    <p>Guia definitivo de técnicas de skate: biomecânica, aterrissagem e mentalidade
+
+Dominar o skateboard exige compreensão de **três pilares fundamentais**: os princípios biomecânicos que se aplicam a múltiplas manobras, as técnicas específicas para aterrissar gaps com segurança, e a preparação mental que separa skatistas medianos dos excepcionais. Os ombros lideram todas as rotações, o comprometimento total causa menos lesões que a hesitação, e 90% dos skatistas profissionais utilizam visualização mental. Este guia consolida sabedoria técnica de profissionais como Jaws, Luan Oliveira, Nyjah Huston e Jamie Foy com princípios científicos de biomecânica e psicologia esportiva. SEÇÃO 3: SUPERANDO O MEDO EM GAPS
+Por que meio-comprometimento machuca mais que comprometimento total
+O conceito de "commitment" é possivelmente o mais importante no skate de gaps. Quando você hesita no meio da manobra:
+
+Sua distribuição de peso está errada
+Você não está posicionado para absorver impacto
+Não consegue correr para fora da queda
+A shape pode disparar imprevisívelmente
+
+O Daily Push chama isso de "kick-out loop of doom": "Se você não se compromete, vai acabar se machucando. Ter segundas intenções no último momento geralmente termina com a cara no chão." SkateboardersHQ. Profissionais só tentam manobras que têm "1000% travadas". É esse "saber" que gera sensação de segurança, não coragem cega. Tactics. Visualização mental funciona para 90% dos skatistas
+Um estudo do NIH descobriu que aproximadamente 90% dos skatistas pesquisados utilizam imagery mental, em duas categorias: ensaios mentais em casa imaginando execução bem-sucedida, e imagery preparatória no local combinada com observação de outros.
+O psicólogo esportivo Dave Collins, que trabalhou com snowboarders olímpicos, explica: "Eu fazia meu atleta imaginar dois passos à frente. Então dois passos além de onde está fisicamente, ele está fazendo na cabeça." Jenkem Magazine. Cinco passos para visualização efetiva:
+
+Encontrar ambiente quieto e sem distrações
+Relaxar através de respiração profunda
+Criar imagens vívidas—engajar todos os sentidos (som, sensação, cheiro)
+Controlar a imagem—ver-se tendo sucesso, não caindo
+Repetir consistentemente—prática diária fortalece caminhos neurais
+
+A Jenkem Magazine resume: "Olhando o spot e caminhando nele, você tem um modelo muito mais claro na cabeça que pode imaginar descendo, e pode fazer esse exercício mental por dias ou semanas até se sentir confiante. Quando realmente vai andar, muito do trabalho já foi feito. Você só precisa aparecer e mandar." Jenkem Magazine. Dessensibilização progressiva funciona melhor que forçar medo
+O método de progressão quebra o medo em pedaços gerenciáveis:
+
+Ter a manobra completamente travada no flat antes de tentar em gaps Skateboarding. Começar com gap pequeno o suficiente para realmente se comprometer
+Aprender a reconhecer quais tentativas são "landáveis" versus quais abandonar
+Aumentar progressivamente o tamanho conforme o comprometimento fica mais natural
+
+Exemplo para crooked grind no rail: não tente segurar 100% na primeira tentativa. Comece apenas travando o truck sem intenção de grindar. Gradualmente segure mais tempo. Eventualmente fique em cima e grinde através. "Eventualmente você vai acreditar completamente que pode fazer e se sentir confortável para começar a se comprometer." The Daily Push. Técnicas práticas durante a sessão
+Respiração fisiológica (do neurocientista Andrew Huberman):
+
+Inspiração longa pelo nariz
+Segunda inspiração curta e aguda pelo nariz (antes de expirar)
+Expiração longa
+Repetir 2-3 vezes The Daily Push. Liberação de tensão: Preste atenção onde você segura tensão (ombros e abdômen são comuns). Relaxe ativamente essas áreas antes de tentar. The Daily Push.  "Se seus músculos estão todos tensionados e você está estressado, não consegue mover o corpo propriamente." SkateboardersHQ. Reset no meio da sessão: Se preso no loop de desistência, afaste-se temporariamente. Faça manobras confortáveis (shove-its, manuals). Volte com confiança renovada.
+O que os profissionais dizem sobre medo
+Nyjah Huston sobre a batalha mental constante:
+
+"Muitas vezes, você sabe que pode fazer a manobra; é só muito difícil tirar aquela primeira tentativa do caminho. Era uma batalha constante porque eu estaria nesse rail grande, tipo 'não sei se estou pronto para isso.' Eu ficaria rolando para ele por meia hora a uma hora, tipo 'o que vou fazer?' Na maioria das vezes, acabava indo." Men's Health. 
+Luan Oliveira sobre não se comparar:
+
+"Eu não sinto pressão dos outros skatistas. Sim, eles são todos gnarly e cada um tem poder de ganhar tudo. Mas não estou tentando ser melhor que ninguém. Estou apenas tentando ser melhor que eu mesmo." Rolling Stone.
+Sobre determinação pura:
+
+"Eu acordava todo dia às 7 da manhã e andava de skate até o skatepark IAPI, que ficava a 45 minutos. Andava o dia todo e às vezes nem comia, porque não tinha dinheiro. Mas não conseguia parar de andar. Tudo que me importava era andar de skate todo maldito dia e melhorar." Rolling Stone.
+
+Andrew Reynolds sobre rituais pré-manobra:
+
+"Só acontece quando estou no topo de algo que vou tentar e estou realmente nervoso e com medo. Começo a bater em coisas. É algo para limpar minha mente, acho." Huck.
+Sobre preparação através de repetição:
+
+"Vou fazer a manobra que quero fazer no fim de semana 20 vezes. Fui lá, entrei no parque, alonguei um pouco... estou só procrastinando. Finalmente fiz as 20 e fui para casa. Só essa checagem de que você foi lá e fez as 20—isso construiu algum tipo de força mental." Thepracticalskateboarder.
+
+Brian "Slash" Hansen sobre usar raiva:
+
+"Eu tinha tanto medo de tentar coisas quando era mais novo que isso me deixava muito puto. Eu ficava tão bravo comigo mesmo por ter medo que usava essa raiva para passar pelo medo e simplesmente ir e tentar coisas que tinha medo de tentar. A raiva ajudava a me motivar." Men's Journal.
+Sobre o valor de uma queda:
+
+"Muitas vezes é preciso uma queda boa para te acordar e fazer você saber que consegue fazer isso. Mais que só uma manobra, uma boa queda pode te fazer perceber por que andamos de skate, e faz você entender como skateboarding é diferente de qualquer outro esporte... Uma boa queda pode ser exatamente a motivação que você precisa para superar seu medo e continuar tentando." Men's Journal.
+
+Medo saudável versus medo limitante
+Medo saudável te impede de tentar manobras além da capacidade atual, fornece informação útil sobre perigo real. "Você nunca vai se livrar completamente do medo, nunca. E mesmo se conseguisse, provavelmente morreria bem rápido." The Daily Push. Medo limitante te impede de se comprometer a manobras que você sabe que consegue fazer, te mantém preso no loop de desistência, é baseado em ansiedade ao invés de avaliação real de perigo.
+Sinais de que o medo está te dizendo algo importante: você não travou realmente a manobra no flat, o gap é genuinamente grande demais para seu nível atual, fadiga física está afetando suas capacidades, fatores ambientais (chão molhado, aproximação ruim).
+Resetando após uma queda ruim
+Resposta imediata: "Se você cair, volte para o skate imediatamente. Obviamente dentro do razoável. Mesmo se não acertar a manobra não importa. Voltar para a shape e tentar de novo vai permitir que você não tenha um bloqueio psicológico." La Skateosphere. Para lesões sérias que exigem recuperação: use visualização durante a reabilitação (imagine-se dois passos à frente da capacidade física), estabeleça metas pequenas e alcançáveis para o retorno, reconecte-se com o skate gradualmente, reflita sobre o que deu errado para tomar decisões melhores.
+O psicólogo esportivo Dave Collins oferece o "argumento Dr. Pepper": "Tipo, qual a pior coisa que pode acontecer?" Tomar uma queda pode reduzir o medo porque o desconhecido se torna conhecido.
+
+</p>
+                </div>
+            </div>
+            
+            <!-- Citações dos Pros -->
+            <div class="dicas-section dicas-collapsible">
+                <div class="dicas-section-header" id="citacoes-header">
+                    <h3>💬 Palavras dos Pros</h3>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="dicas-text-content collapsed" id="citacoes-content">
+                    <div class="dica-item citacao-pro">
+                        <h4>Luan Oliveira</h4>
+                        <p class="citacao">"Minha preparação sempre foi estar bem comigo mesmo e andando de skate todos os dias. Essa sempre vai ser minha preparação pra qualquer coisa envolvendo skate."</p>
+                        <p class="citacao-contexto">Sobre consistência e amor pelo skate.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Luan Oliveira</h4>
+                        <p class="citacao">"Espero poder fazer meu trabalho da forma mais natural possível, que é estar andando de skate me divertindo."</p>
+                        <p class="citacao-contexto">Sobre manter a diversão mesmo em competições.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Tiago Lemos</h4>
+                        <p class="citacao">"Meu sonho era dar um crooked na borda do Vale do Anhangabaú. Cheguei lá, o lugar gigante, passei um sufoco, um tempão e não conseguia andar. O pico é bem louco, marcou a história."</p>
+                        <p class="citacao-contexto">Sobre persistência e respeitar a dificuldade dos spots.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Tiago Lemos</h4>
+                        <p class="citacao">"Não tem pico fácil. O pico pode ser perfeito, mas não vai ser tão perfeito."</p>
+                        <p class="citacao-contexto">Sobre a realidade de andar na rua.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Rodrigo TX</h4>
+                        <p class="citacao">"O mundo que eu gosto, que é o skate na rua, evolução na rua, liberdade, fazendo no meu tempo e me puxar na minha evolução filmando."</p>
+                        <p class="citacao-contexto">Sobre a essência do street skating.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Rodrigo TX</h4>
+                        <p class="citacao">"Se eu não estou filmando, estou brincando, me divertindo. Não estou tentando as paradas mais difíceis."</p>
+                        <p class="citacao-contexto">Sobre equilibrar evolução e diversão.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Carlos Iqui</h4>
+                        <p class="citacao">"Esse momento é inesquecível. Cada um é de um canto, mas a gente é amigo, é irmão. A energia vai além, inexplicável."</p>
+                        <p class="citacao-contexto">Sobre a irmandade no skate.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Sabedoria da Rua</h4>
+                        <p class="citacao">"No skate você não tem limites. Não existe manobra que você não possa dar. Ele é psicológico. Você pode dar todas as manobras."</p>
+                        <p class="citacao-contexto">Sobre o poder da mente no skate.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Leticia Bufoni</h4>
+                        <p class="citacao">"Se cair, que aprenda a levantar sempre. Se alguém um dia disser que skate não é pra você, prove que está errado!"</p>
+                        <p class="citacao-contexto">Sobre resiliência e determinação.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Leticia Bufoni</h4>
+                        <p class="citacao">"Eu amo minhas cicatrizes. Não escondo nenhuma, pois elas mostram que realmente amo o que eu faço."</p>
+                        <p class="citacao-contexto">Sobre aceitar as marcas do progresso.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Pedro Barros</h4>
+                        <p class="citacao">"A gente pode cair várias vezes no chão, mas a missão é ver um amanhã melhor. Podemos fazer do nosso país um lugar melhor através do amor e do respeito."</p>
+                        <p class="citacao-contexto">Após conquistar a prata olímpica em Tóquio.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Pedro Barros</h4>
+                        <p class="citacao">"O skate é muito mais do que um esporte. É uma forma de se expressar, uma ferramenta incrível para espalhar amor pelo mundo."</p>
+                        <p class="citacao-contexto">Sobre a essência do skate como estilo de vida.</p>
+                    </div>
+                    <div class="dica-item citacao-pro">
+                        <h4>Pedro Barros</h4>
+                        <p class="citacao">"Uma das coisas que a gente mais aceita no skate é a diversidade, que faz a vida mais linda e mais incrível."</p>
+                        <p class="citacao-contexto">Sobre inclusão na comunidade do skate.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Modal de Adicionar Link -->
+    <div id="modal-link" class="modal">
+        <div class="modal-content">
+            <h3>Adicionar Link</h3>
+            <input type="url" id="input-link" placeholder="Cole o link aqui (YouTube, Instagram...)" />
+            <input type="text" id="input-link-title" placeholder="Título do link (opcional)" />
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="btn-cancel-link">Cancelar</button>
+                <button class="btn-primary" id="btn-save-link">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Vídeo -->
+    <div id="modal-video" class="modal">
+        <div class="modal-content modal-video-content">
+            <h3>Gravar Vídeo</h3>
+            <video id="video-preview" autoplay playsinline></video>
+            <div class="video-controls">
+                <button class="btn-primary" id="btn-start-record">🔴 Gravar</button>
+                <button class="btn-secondary" id="btn-stop-record" style="display:none;">⏹ Parar</button>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="btn-cancel-video">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay de Suspense -->
+    <div id="suspense-overlay" class="suspense-overlay">
+        <div class="suspense-card">
+            <div class="suspense-icon" id="suspense-icon">🛹</div>
+            <p class="suspense-text" id="suspense-text">Adversário está puxando...</p>
+            <div class="suspense-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="watermark">
+        A Willian Diego creation. All credits to Plaza Sarandi Skatepark.
+    </footer>
+
+    <!-- Menu de destaque de texto -->
+    <div class="highlight-menu" id="highlight-menu">
+        <button class="highlight-btn-mark" id="highlight-mark">✨ Destacar</button>
+        <button class="highlight-btn-remove" id="highlight-remove">🗑️ Remover</button>
+        <button class="highlight-btn-cancel" id="highlight-cancel">✕</button>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        // Registra o Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('❌ Erro ao registrar Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Scripts -->
+    <script src="js/highlights.js"></script>
+    <script src="js/metas.js"></script>
+    <script src="js/music-player.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/tricks.js"></script>
+    <script src="js/skate-game.js"></script>
+</body>
+</html>
+
