@@ -4470,3 +4470,62 @@ main, body {
     margin-top: 15px;
     text-align: center;
 }
+
+/* Modal de Exportação */
+.modal-export-content {
+    max-width: 350px;
+}
+
+.export-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.export-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.export-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.export-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.export-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #ffd700;
+    cursor: pointer;
+}
+
+.export-option input[type="checkbox"]:disabled {
+    opacity: 0.7;
+}
+
+.option-text {
+    flex: 1;
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.option-warning {
+    font-size: 0.75rem;
+    color: #ff6b6b;
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
+}
