@@ -482,7 +482,7 @@ function opponentPullsTrick() {
                         document.getElementById('current-trick').textContent = '-';
                         updateSpeech(getPhrase('adversario_errou'));
                         
-                        removeTrickFromPool(trick.id, opponentStance);
+                        // NÃO remove do pool - quem puxou errou, manobra pode ser usada de novo
                         isPlayerPulling = true;
                         setTimeout(() => showTrickSelection(), 1000);
                     }, 1500);
@@ -685,7 +685,8 @@ function playerMissed() {
             endGame(false);
         } else {
             // Adversário CONTINUA puxando
-            // NÃO remove do pool - pode tentar de novo depois
+            // Remove do pool - rodada completa (copiador errou, ganhou letra)
+            removeTrickFromPool(currentTrickInGame.id, currentTrickInGame.stance || 'regular');
             setTimeout(() => opponentPullsTrick(), 2000);
         }
     }
