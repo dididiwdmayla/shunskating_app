@@ -2114,6 +2114,52 @@ O psicólogo esportivo Dave Collins oferece o "argumento Dr. Pepper": "Tipo, qua
         </div>
     </div>
 
+    <!-- Modal de Exportação -->
+    <div id="modal-export" class="modal">
+        <div class="modal-content modal-export-content">
+            <h3>📤 Exportar Dados</h3>
+            <p class="export-description">Selecione o que deseja incluir no backup:</p>
+            
+            <div class="export-options">
+                <label class="export-option">
+                    <input type="checkbox" id="export-progress" checked disabled>
+                    <span class="checkmark"></span>
+                    <span class="option-text">📊 Progresso e anotações</span>
+                </label>
+                
+                <label class="export-option">
+                    <input type="checkbox" id="export-highlights" checked>
+                    <span class="checkmark"></span>
+                    <span class="option-text">✨ Destaques de texto</span>
+                </label>
+                
+                <label class="export-option">
+                    <input type="checkbox" id="export-metas" checked>
+                    <span class="checkmark"></span>
+                    <span class="option-text">🎯 Metas personalizadas</span>
+                </label>
+                
+                <label class="export-option">
+                    <input type="checkbox" id="export-videos" checked>
+                    <span class="checkmark"></span>
+                    <span class="option-text">🎥 Vídeos gravados</span>
+                </label>
+                
+                <label class="export-option">
+                    <input type="checkbox" id="export-music">
+                    <span class="checkmark"></span>
+                    <span class="option-text">🎵 Músicas (arquivos completos)</span>
+                    <span class="option-warning">⚠️ Pode ficar pesado</span>
+                </label>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="btn-cancel-export">Cancelar</button>
+                <button class="btn-primary" id="btn-confirm-export">Exportar</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="watermark">
         A Willian Diego creation. All credits to Plaza Sarandi Skatepark.
     </footer>
