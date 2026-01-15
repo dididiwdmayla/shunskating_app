@@ -128,10 +128,10 @@ async function exportData() {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        closeExportModal();
-        
         if (typeof AudioManager !== 'undefined') AudioManager.play('save');
         alert(`✅ Backup exportado!\n\nArquivo: ${filename}\nTamanho: ${sizeMB} MB`);
+        
+        closeExportModal();
         
         return true;
     } catch (e) {
